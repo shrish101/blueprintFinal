@@ -2,7 +2,7 @@
 
 ## Team Reponsiblities:
 Team - Messaging, Translating 
-Thanush - Database
+Thanush - Database For Messages 
 Shrish - Edit Messages
 Abdallah - Search Feature
 Ginky - Login
