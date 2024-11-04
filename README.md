@@ -5,5 +5,5 @@ Team - Messaging, Translating
 Thanush - Database For Messages 
 Shrish - Edit Messages
 Abdallah - Search Feature
-Ginky - Login
+Girik - Login
 
