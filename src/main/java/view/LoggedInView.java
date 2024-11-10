@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -36,6 +38,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JTextField passwordInputField = new JTextField(15);
     private final JButton changePassword;
 
+    private final JTextArea chatArea;
+    private final JTextField chatInputField;
+
     public LoggedInView(LoggedInViewModel loggedInViewModel) {
         this.loggedInViewModel = loggedInViewModel;
         this.loggedInViewModel.addPropertyChangeListener(this);
@@ -55,6 +60,13 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         changePassword = new JButton("Change Password");
         buttons.add(changePassword);
+
+        chatArea = new JTextArea(10, 30);
+        chatArea.setEditable(false);
+
+        final JScrollPane chatScrollPane = new JScrollPane(chatArea);
+
+        chatInputField = new JTextField(30);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -107,6 +119,12 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                 }
         );
 
+        chatInputField.addActionListener(evt -> {
+            final String message = chatInputField.getText();
+            chatArea.append("You: " + message + "\n");
+            chatInputField.setText("");
+        });
+
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
@@ -114,6 +132,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(passwordInfo);
         this.add(passwordErrorField);
         this.add(buttons);
+
+        this.add(new JLabel("Chat Area:"));
+        this.add(chatScrollPane);
+        this.add(chatInputField);
     }
 
     @Override
