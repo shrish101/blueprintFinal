@@ -35,6 +35,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     private final JButton logOut;
 
+    private final JButton sync;
+
     private final JTextField passwordInputField = new JTextField(15);
     private final JButton changePassword;
 
@@ -59,6 +61,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         buttons.add(logOut);
 
         changePassword = new JButton("Change Password");
+        buttons.add(changePassword);
+
+        sync= new JButton("Synch");
         buttons.add(changePassword);
 
         chatArea = new JTextArea(10, 30);
@@ -93,6 +98,12 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                 documentListenerHelper();
             }
         });
+
+        sync.addActionListener(
+                evt -> {
+                    System.out.println("Retrieving Data...");
+                }
+        );
 
         changePassword.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -132,6 +143,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(passwordInfo);
         this.add(passwordErrorField);
         this.add(buttons);
+        this.add(sync);
 
         this.add(new JLabel("Chat Area:"));
         this.add(chatScrollPane);
