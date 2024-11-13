@@ -16,10 +16,10 @@ public class QuickStart {
         String uri = dotenv.get("MONGODB_URI");
 
         try (MongoClient mongoClient = MongoClients.create(uri)) {
-            MongoDatabase database = mongoClient.getDatabase("sample_mflix");
-            MongoCollection<Document> collection = database.getCollection("movies");
+            MongoDatabase database = mongoClient.getDatabase("TranslateApp");
+            MongoCollection<Document> collection = database.getCollection("users");
 
-            Document doc = collection.find(eq("title", "Back to the Future")).first();
+            Document doc = collection.find(eq("username", "Shrish")).first();
             if (doc != null) {
                 System.out.println(doc.toJson());
             } else {
