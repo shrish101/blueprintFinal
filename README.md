@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-The Real-Time Messaging and Translation Application is designed to enable seamless multilingual communication through both individual and group chats. Utilizing a language translation API, this application translates messages, allowing users to send messages in their preferred language and have them translated automatically for recipients who speak different languages. This project also includes features for message editing, message search, and chat history storage, enhancing the user experience and promoting effective communication across language barriers.
+The Real-Time Messaging and Translation Application is designed to enable seamless multilingual communication through both individual and group chats. Utilizing a language translation API, this application translates messages, allowing users to send messages in their preferred language and have them translated automatically for recipients who speak different languages. This project also includes features for message editing, message search, and chat history storage, enhancing the user experience and promoting effective communication across language barriers. Additionally, the real-time aspect will be implemented through the use of a sync-button, which will be able to retrieve the updated messages/chat history from the database.
 
 ## User Stories
 
