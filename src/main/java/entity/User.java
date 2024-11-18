@@ -17,4 +17,10 @@ public interface User {
      */
     String getPassword();
 
+    /**
+     * Returns the language of the user.
+     * @return the language of the user.
+     */
+    String getLanguage();
+
 }

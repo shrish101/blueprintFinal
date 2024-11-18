@@ -10,6 +10,8 @@ public class SignupState {
     private String passwordError;
     private String repeatPassword = "";
     private String repeatPasswordError;
+    private String language = "";
+    private String languageError;
 
     public String getUsername() {
         return username;
@@ -29,6 +31,14 @@ public class SignupState {
 
     public String getRepeatPassword() {
         return repeatPassword;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getLanguageError() {
+        return languageError;
     }
 
     public String getRepeatPasswordError() {
@@ -59,12 +69,21 @@ public class SignupState {
         this.repeatPasswordError = repeatPasswordError;
     }
 
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setLanguageError(String languageError) {
+        this.languageError = languageError;
+    }
+
     @Override
     public String toString() {
         return "SignupState{"
                 + "username='" + username + '\''
                 + ", password='" + password + '\''
                 + ", repeatPassword='" + repeatPassword + '\''
+                + ", language='" + language + '\''
                 + '}';
     }
 }
