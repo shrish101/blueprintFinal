@@ -30,7 +30,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JTextField usernameInputField = new JTextField(15);
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
-    private final JPasswordField languageInputField = new JPasswordField(15);
+    private final JTextField languageInputField = new JTextField(
+            15);
     private SignupController signupController;
 
     private final JButton signUp;
@@ -109,7 +110,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
             private void documentListenerHelper() {
                 final SignupState currentState = signupViewModel.getState();
-                currentState.setUsername(languageInputField.getText());
+                currentState.setLanguage(languageInputField.getText());
                 signupViewModel.setState(currentState);
             }
 
