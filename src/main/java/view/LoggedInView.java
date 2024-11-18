@@ -37,6 +37,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     private final JButton sync;
 
+    private final JButton search;
+
     private final JTextField passwordInputField = new JTextField(15);
     private final JButton changePassword;
 
@@ -63,8 +65,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         changePassword = new JButton("Change Password");
         buttons.add(changePassword);
 
-        sync= new JButton("Synch");
+        sync = new JButton("Sync");
         buttons.add(changePassword);
+
+        search = new JButton("Search");
 
         chatArea = new JTextArea(10, 30);
         chatArea.setEditable(false);
@@ -105,6 +109,11 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                 }
         );
 
+        search.addActionListener(evt -> {
+            final SearchView searchView = new SearchView();
+            searchView.setVisible(true);
+        });
+
         changePassword.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 evt -> {
@@ -144,6 +153,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(passwordErrorField);
         this.add(buttons);
         this.add(sync);
+        this.add(search);
 
         this.add(new JLabel("Chat Area:"));
         this.add(chatScrollPane);
