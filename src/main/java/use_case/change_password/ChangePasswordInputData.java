@@ -7,11 +7,12 @@ public class ChangePasswordInputData {
 
     private final String password;
     private final String username;
-    private final String lan
+    private final String language;
 
-    public ChangePasswordInputData(String password, String username) {
+    public ChangePasswordInputData(String password, String username, String language) {
         this.password = password;
         this.username = username;
+        this.language = language;
     }
 
     String getPassword() {
@@ -21,5 +22,7 @@ public class ChangePasswordInputData {
     String getUsername() {
         return username;
     }
+
+    String getLanguage() { return language; }
 
 }
