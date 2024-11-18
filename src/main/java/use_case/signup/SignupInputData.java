@@ -8,11 +8,13 @@ public class SignupInputData {
     private final String username;
     private final String password;
     private final String repeatPassword;
+    private final String language;
 
-    public SignupInputData(String username, String password, String repeatPassword) {
+    public SignupInputData(String username, String password, String repeatPassword, String language) {
         this.username = username;
         this.password = password;
         this.repeatPassword = repeatPassword;
+        this.language = language;
     }
 
     String getUsername() {
@@ -26,4 +28,6 @@ public class SignupInputData {
     public String getRepeatPassword() {
         return repeatPassword;
     }
+
+    String getLanguage() { return language; }
 }

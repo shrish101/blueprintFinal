@@ -7,6 +7,7 @@ public class ChangePasswordInputData {
 
     private final String password;
     private final String username;
+    private final String lan
 
     public ChangePasswordInputData(String password, String username) {
         this.password = password;
