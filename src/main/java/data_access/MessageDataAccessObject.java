@@ -20,6 +20,7 @@ public class MessageDataAccessObject {
         Dotenv dotenv = Dotenv.load();
         String uri = dotenv.get("MONGODB_URI");
 
+        // Connect to MongoDB and get the "messages" collection
         MongoCollection<Document> messageCollection = MongoClients.create(uri)
                 .getDatabase("TranslateApp")
                 .getCollection("messages");
@@ -27,10 +28,19 @@ public class MessageDataAccessObject {
         this.messageCollection = messageCollection;
     }
 
+    // Method to save a message to MongoDB
     public void saveMessage(Message message) {
+        Document messageDoc = new Document("sender", message.getSender())
+                .append("recipient", message.getRecipient())
+                .append("originalMessage", message.getOriginalLanguage())
+                .append("translatedMessage", message.getTranslatedContent());
+
+        messageCollection.insertOne(messageDoc);
     }
 
     public List<Message> getAllMessages() {
+        //need to be implemented for later
+        return null;
     }
 
 }
