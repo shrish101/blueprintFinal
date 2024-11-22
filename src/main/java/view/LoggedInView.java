@@ -15,6 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import data_access.MessageDataAccessObject;
+import entity.CommonMessage;
+import entity.Message;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
@@ -45,9 +48,13 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JTextArea chatArea;
     private final JTextField chatInputField;
 
+    private final MessageDataAccessObject messageDataAccessObject;
+
     public LoggedInView(LoggedInViewModel loggedInViewModel) {
         this.loggedInViewModel = loggedInViewModel;
         this.loggedInViewModel.addPropertyChangeListener(this);
+
+        this.messageDataAccessObject = new MessageDataAccessObject();
 
         final JLabel title = new JLabel("Logged In Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -66,7 +73,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         buttons.add(changePassword);
 
         sync = new JButton("Sync");
-        buttons.add(changePassword);
+        buttons.add(sync);
 
         search = new JButton("Search");
 
@@ -115,7 +122,6 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         });
 
         changePassword.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
                 evt -> {
                     if (evt.getSource().equals(changePassword)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
@@ -131,7 +137,6 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         );
 
         logOut.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
                 evt -> {
                     if (evt.getSource().equals(logOut)) {
                         // TODO: execute the logout use case through the Controller
@@ -142,8 +147,15 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         );
 
         chatInputField.addActionListener(evt -> {
-            final String message = chatInputField.getText();
-            chatArea.append("You: " + message + "\n");
+            final String messageText = chatInputField.getText();
+            String username = loggedInViewModel.getState().getUsername();
+            String language = loggedInViewModel.getState().getLanguage();
+
+            //need to properly implement who recieving what...
+            Message message = new CommonMessage(username, "recipient", messageText, messageText);
+            messageDataAccessObject.saveMessage(message);
+
+            chatArea.append("You: " + messageText + "\n");
             chatInputField.setText("");
         });
 
