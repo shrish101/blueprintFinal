@@ -11,6 +11,8 @@ import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
+import java.util.List;
+
 import static com.mongodb.client.model.Filters.eq;
 
 /**
@@ -39,7 +41,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             String name = userDoc.getString("username");
             String password = userDoc.getString("password");
             String language = userDoc.getString("language");
-            return userFactory.create(name, password, language);
+            List<String> friends = userDoc.getList("friends", String.class);
+            return userFactory.create(name, password, language, friends);
         } else {
             throw new RuntimeException("User not found.");
         }
@@ -59,7 +62,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     @Override
     public void save(User user) {
         Document userDoc = new Document("username", user.getName())
-                .append("password", user.getPassword());
+                .append("password", user.getPassword())
+                .append("friends", user.getFriends())
+                .append("friends", user.getFriends() != null ? user.getFriends() : List.of());
         usersCollection.insertOne(userDoc);
     }
 

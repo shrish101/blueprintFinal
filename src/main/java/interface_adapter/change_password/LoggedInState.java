@@ -1,26 +1,28 @@
 package interface_adapter.change_password;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * The State information representing the logged-in user.
  */
 public class LoggedInState {
     private String username = "";
-
     private String password = "";
     private String passwordError;
-
     private String language;
+    private List<String> friends = new ArrayList<>();
 
     public LoggedInState(LoggedInState copy) {
-        username = copy.username;
-        password = copy.password;
-        passwordError = copy.passwordError;
-        language = copy.language;
+        this.username = copy.username;
+        this.password = copy.password;
+        this.passwordError = copy.passwordError;
+        this.language = copy.language;
+        this.friends = new ArrayList<>(copy.friends);
     }
 
-    // Because of the previous copy constructor, the default constructor must be explicit.
+    // Default constructor
     public LoggedInState() {
-
     }
 
     public String getUsername() {
@@ -43,5 +45,19 @@ public class LoggedInState {
         return password;
     }
 
-    public String getLanguage() {return language; }
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public List<String> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<String> friends) {
+        this.friends = friends;
+    }
 }

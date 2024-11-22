@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.List;
+
 /**
  * The representation of a user in our program.
  */
@@ -23,4 +25,9 @@ public interface User {
      */
     String getLanguage();
 
+    /**
+     * Returns the friends of the user.
+     * @return the friends of the user.
+     */
+    List<String> getFriends();
 }

@@ -1,5 +1,8 @@
 package use_case.signup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The Input Data for the Signup Use Case.
  */
@@ -30,4 +33,8 @@ public class SignupInputData {
     }
 
     String getLanguage() { return language; }
+
+    public List<String> getFriends() {
+        return new ArrayList<>();
+    }
 }

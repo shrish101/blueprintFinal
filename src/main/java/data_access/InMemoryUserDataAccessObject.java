@@ -41,7 +41,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public void save(User user) {
         Document userDoc = new Document("username", user.getName())
                 .append("password", user.getPassword())
-                .append("language", user.getLanguage());
+                .append("language", user.getLanguage())
+                .append("friends", user.getFriends()); // Add the friends list
         userCollection.insertOne(userDoc);
     }
 
@@ -49,12 +50,13 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public User get(String username) {
         Document userDoc = userCollection.find(Filters.eq("username", username)).first();
         if (userDoc == null) {
-            return null;
+            return null; // Return null or throw an exception if the user is not found
         }
         return new CommonUser(
                 userDoc.getString("username"),
                 userDoc.getString("password"),
-                userDoc.getString("language")
+                userDoc.getString("language"),
+                userDoc.getList("friends", String.class) // Retrieve the friends list
         );
     }
 
@@ -62,7 +64,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public void changePassword(User user) {
         Document updatedUserDoc = new Document("username", user.getName())
                 .append("password", user.getPassword())
-                .append("language", user.getLanguage());
+                .append("language", user.getLanguage())
+                .append("friends", user.getFriends());
         userCollection.replaceOne(Filters.eq("username", user.getName()), updatedUserDoc);
     }
 
