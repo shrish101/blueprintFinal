@@ -1,4 +1,4 @@
-# Ginky and Friends Messaging App
+# Talk Tuah-Ginky
 
 ## Project Overview
 
