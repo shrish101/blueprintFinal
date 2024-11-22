@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import interface_adapter.addFriend.AddFriendViewModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
@@ -30,6 +31,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JLabel passwordErrorField = new JLabel();
     private ChangePasswordController changePasswordController;
     private LogoutController logoutController;
+    private final AddFriendViewModel addFriendViewModel;
 
     private final JLabel username;
 
@@ -39,14 +41,17 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     private final JButton search;
 
+    private final JButton addFriend;
+
     private final JTextField passwordInputField = new JTextField(15);
     private final JButton changePassword;
 
     private final JTextArea chatArea;
     private final JTextField chatInputField;
 
-    public LoggedInView(LoggedInViewModel loggedInViewModel) {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, AddFriendViewModel addFriendViewModel) {
         this.loggedInViewModel = loggedInViewModel;
+        this.addFriendViewModel = addFriendViewModel;
         this.loggedInViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel("Logged In Screen");
@@ -69,6 +74,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         buttons.add(changePassword);
 
         search = new JButton("Search");
+
+        addFriend = new JButton("Add Friend");
 
         chatArea = new JTextArea(10, 30);
         chatArea.setEditable(false);
@@ -114,6 +121,11 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             searchView.setVisible(true);
         });
 
+        addFriend.addActionListener(evt -> {
+            final AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
+            addFriendView.setVisible(true);
+        });
+
         changePassword.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 evt -> {
@@ -156,6 +168,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(buttons);
         this.add(sync);
         this.add(search);
+        this.add(addFriend);
 
         this.add(new JLabel("Chat Area:"));
         this.add(chatScrollPane);

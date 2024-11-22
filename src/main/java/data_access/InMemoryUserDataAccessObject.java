@@ -9,15 +9,18 @@ import entity.CommonUser;
 import entity.User;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.bson.Document;
+import use_case.add_friend.AddFriendUserDataAccessInterface;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
+import java.util.List;
+
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface {
+        LogoutUserDataAccessInterface, AddFriendUserDataAccessInterface {
 
     private final MongoCollection<Document> userCollection;
     private String currentUsername;
@@ -35,6 +38,16 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     public boolean existsByName(String username) {
         Document userDoc = userCollection.find(Filters.eq("username", username)).first();
         return userDoc != null;
+    }
+
+    @Override
+    public void addFriend(String username, String friendUsername) {
+
+    }
+
+    @Override
+    public List<String> getFriends(String username) {
+        return List.of();
     }
 
     @Override
