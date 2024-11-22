@@ -123,7 +123,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                         this.changePasswordController.execute(
                                 currentState.getUsername(),
                                 currentState.getPassword(),
-                                currentState.getLanguage()
+                                currentState.getLanguage(),
+                                currentState.getFriends()
                         );
                     }
                 }
