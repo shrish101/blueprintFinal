@@ -1,47 +1,45 @@
 package interface_adapter.addFriend;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class AddFriendState {
 
-    private String currentUsername;
-    private String friendUsername;
-    private String message;
+    private String username = "";
+    private String friendUsername = "";
+    private String errorMessage = "";
 
-    // Constructor
-    public AddFriendState(String currentUsername, String friendUsername) {
-        this.currentUsername = currentUsername;
-        this.friendUsername = friendUsername;
-        this.message = "";
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+    public String getUsername() {
+        return username;
     }
 
-    // Getters and Setters for currentUsername
-    public String getCurrentUsername() {
-        return currentUsername;
-    }
-
-    public void setCurrentUsername(String currentUsername) {
-        this.currentUsername = currentUsername;
-    }
-
-    // Getters and Setters for friendUsername
     public String getFriendUsername() {
         return friendUsername;
     }
 
     public void setFriendUsername(String friendUsername) {
+        String oldValue = this.friendUsername;
         this.friendUsername = friendUsername;
+        support.firePropertyChange("friendUsername", oldValue, friendUsername);
     }
 
-    // Getter and Setter for message
-    public String getMessage() {
-        return message;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setErrorMessage(String errorMessage) {
+        String oldValue = this.errorMessage;
+        this.errorMessage = errorMessage;
+        support.firePropertyChange("errorMessage", oldValue, errorMessage);
     }
 
-    public Object getUsernameError() {
-        return message;
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
     }
 }

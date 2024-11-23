@@ -72,7 +72,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         );
 
         cancel.addActionListener(this);
-
         usernameInputField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {

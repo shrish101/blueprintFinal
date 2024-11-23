@@ -41,16 +41,6 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public void addFriend(String username, String friendUsername) {
-
-    }
-
-    @Override
-    public List<String> getFriends(String username) {
-        return List.of();
-    }
-
-    @Override
     public void save(User user) {
         Document userDoc = new Document("username", user.getName())
                 .append("password", user.getPassword())
@@ -90,5 +80,15 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public String getCurrentUsername() {
         return this.currentUsername;
+    }
+
+    @Override
+    public boolean isUserExist(String username) {
+        return false;
+    }
+
+    @Override
+    public boolean addFriend(String username, String friendUsername) {
+        return false;
     }
 }

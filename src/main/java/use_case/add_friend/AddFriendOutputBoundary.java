@@ -1,19 +1,19 @@
 package use_case.add_friend;
 
+/**
+ * The Output Boundary for the AddFriend use case.
+ */
 public interface AddFriendOutputBoundary {
 
     /**
-     * Prepares the success view for the Login Use Case.
+     * Prepares the success view with the output data.
+     * @param response the output data
      */
-    void friendAddedSuccess();
+    void prepareSuccessView(AddFriendOutputData response);
 
     /**
-     * Prepares the success view for the Login Use Case.
-     * @param errorMessage the error message
+     * Prepares the failure view with an error message.
+     * @param error the error message
      */
-    void friendAddedFailure(String errorMessage);
-
-    void prepareFailView(String s);
-
-    void prepareSuccessView(AddFriendOutputData addFriendOutputData);
+    void prepareFailView(String error);
 }
