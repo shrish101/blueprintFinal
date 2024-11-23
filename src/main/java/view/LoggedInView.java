@@ -122,7 +122,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         });
 
         addFriend.addActionListener(evt -> {
-            final AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
+            final AddFriendViewModel addFriendViewModel1 = new AddFriendViewModel();
+            final AddFriendView addFriendView = new AddFriendView(addFriendViewModel1);
             addFriendView.setVisible(true);
         });
 
