@@ -4,17 +4,13 @@ import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import entity.User;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.addFriend.*;
 import data_access.MessageDataAccessObject;
 import entity.CommonMessage;
 import entity.Message;
@@ -22,6 +18,7 @@ import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
+import use_case.add_friend.*;
 
 /**
  * The View for when the user is logged into the program.
@@ -32,6 +29,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final LoggedInViewModel loggedInViewModel;
     private final JLabel passwordErrorField = new JLabel();
     private ChangePasswordController changePasswordController;
+    private AddFriendController addFriendController;
     private LogoutController logoutController;
 
     private final JLabel username;
@@ -42,6 +40,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     private final JButton search;
 
+    private final JButton addFriend;
+
     private final JTextField passwordInputField = new JTextField(15);
     private final JButton changePassword;
 
@@ -49,10 +49,12 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JTextField chatInputField;
 
     private final MessageDataAccessObject messageDataAccessObject;
+    private final ViewManagerModel viewManagerModel;
 
-    public LoggedInView(LoggedInViewModel loggedInViewModel) {
+    public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel) {
         this.loggedInViewModel = loggedInViewModel;
         this.loggedInViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
 
         this.messageDataAccessObject = new MessageDataAccessObject();
 
@@ -76,6 +78,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         buttons.add(sync);
 
         search = new JButton("Search");
+
+        addFriend = new JButton("Add Friend");
 
         chatArea = new JTextArea(10, 30);
         chatArea.setEditable(false);
@@ -119,6 +123,22 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         search.addActionListener(evt -> {
             final SearchView searchView = new SearchView();
             searchView.setVisible(true);
+        });
+
+        addFriend.addActionListener(evt -> {
+            // final AddFriendState currentState = addFriendViewModel.getState();
+            // String friendUsername = currentState.getFriendUsername(); // Assuming this is the friend's username input
+            // if (friendUsername != null && !friendUsername.trim().isEmpty()) {
+            //    addFriendViewModel.addFriend(friendUsername); // Call to add friend through the ViewModel
+            // } else {
+            //    JOptionPane.showMessageDialog(null, "Please enter a valid username to add as a friend.");
+            // }
+            AddFriendViewModel addFriendViewModel = new AddFriendViewModel();
+            AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
+            addFriendView.setAddFriendController(addFriendController);
+            addFriendView.setVisible(true);
+            viewManagerModel.setState("add friend");
+            viewManagerModel.firePropertyChanged();
         });
 
         changePassword.addActionListener(
@@ -168,6 +188,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(buttons);
         this.add(sync);
         this.add(search);
+        this.add(addFriend);
 
         this.add(new JLabel("Chat Area:"));
         this.add(chatScrollPane);

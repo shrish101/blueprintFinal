@@ -10,6 +10,8 @@ import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.addFriend.AddFriendPresenter;
+import interface_adapter.addFriend.AddFriendViewModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
@@ -33,10 +35,12 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import use_case.add_friend.AddFriendInputBoundary;
+import use_case.add_friend.AddFriendOutputBoundary;
+import interface_adapter.addFriend.*;
+import use_case.add_friend.AddFriendInteractor;
+
+import view.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -66,6 +70,8 @@ public class AppBuilder {
     private LoggedInViewModel loggedInViewModel;
     private LoggedInView loggedInView;
     private LoginView loginView;
+    private AddFriendView addFriendView;
+    private AddFriendViewModel addFriendViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -81,6 +87,8 @@ public class AppBuilder {
         cardPanel.add(signupView, signupView.getViewName());
         return this;
     }
+
+
 
     /**
      * Adds the Login View to the application.
@@ -99,7 +107,8 @@ public class AppBuilder {
      */
     public AppBuilder addLoggedInView() {
         loggedInViewModel = new LoggedInViewModel();
-        loggedInView = new LoggedInView(loggedInViewModel);
+        addFriendViewModel = new AddFriendViewModel();
+        loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel);
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
     }
@@ -119,6 +128,28 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addAddFriendView() {
+        // Create AddFriendViewModel and AddFriendView instances
+        addFriendViewModel = new AddFriendViewModel();
+        addFriendView = new AddFriendView(addFriendViewModel);
+
+        // Add the view to the card panel with its unique view name
+        cardPanel.add(addFriendView, addFriendView.getViewName());
+
+        // Return the builder object to allow method chaining
+        return this;
+    }
+
+    public AppBuilder addAddFriendUseCase() {
+        final AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel);
+        final AddFriendInputBoundary addFriendInteractor = new AddFriendInteractor(
+                addFriendOutputBoundary);
+
+        final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
+        addFriendView.setAddFriendController(addFriendController);
+        System.out.println(2);
+        return this;
+    }
     /**
      * Adds the Login Use Case to the application.
      * @return this builder
@@ -131,6 +162,7 @@ public class AppBuilder {
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
+        System.out.println(1);
         return this;
     }
 
