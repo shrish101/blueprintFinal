@@ -8,6 +8,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -30,8 +31,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JTextField usernameInputField = new JTextField(15);
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
-    private final JTextField languageInputField = new JTextField(
-            15);
+    private final String[] languages = new String[]{"ENGLISH", "SPANISH", "FRENCH", "GERMAN", "ITALIAN", "HINDI", "ARABIC"};
+    private final JComboBox<String> languageDropdown = new JComboBox<>(languages);
+
     private SignupController signupController;
 
     private final JButton signUp;
@@ -52,7 +54,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         final LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
                 new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
         final LabelTextPanel languageInfo = new LabelTextPanel(
-                new JLabel(SignupViewModel.LANGUAGE_LABEL), languageInputField);
+                new JLabel(SignupViewModel.LANGUAGE_LABEL), languageDropdown);
 
         final JPanel buttons = new JPanel();
         toLogin = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
@@ -63,7 +65,6 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         buttons.add(cancel);
 
         signUp.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(signUp)) {
@@ -106,27 +107,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     }
 
     private void addLanguageListener() {
-        languageInputField.getDocument().addDocumentListener(new DocumentListener() {
-
-            private void documentListenerHelper() {
+        languageDropdown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final String selectedLanguage = (String) languageDropdown.getSelectedItem();
                 final SignupState currentState = signupViewModel.getState();
-                currentState.setLanguage(languageInputField.getText());
+                currentState.setLanguage(selectedLanguage);
                 signupViewModel.setState(currentState);
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
             }
         });
     }
