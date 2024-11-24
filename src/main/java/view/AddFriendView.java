@@ -11,25 +11,37 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.addFriend.AddFriendController;
 import interface_adapter.addFriend.AddFriendState;
 import interface_adapter.addFriend.AddFriendViewModel;
+import interface_adapter.change_password.LoggedInState;
+import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.logout.LogoutController;
+import interface_adapter.change_password.LoggedInState;
 
 public class AddFriendView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "add friend";
     private final AddFriendViewModel addFriendViewModel;
+    private final LoggedInViewModel loggedInViewModel;
 
     private final JTextField friendUsernameInputField = new JTextField(15);
     private final JLabel friendUsernameErrorField = new JLabel();
+    private final JLabel friendUsernameSuccessLabel = new JLabel();
 
     private final JButton addFriendButton;
-    private final JButton cancelButton;
+    private final JButton homeScreenButton;
     private AddFriendController addFriendController;
+    private LogoutController logoutController;
 
-    public AddFriendView(AddFriendViewModel addFriendViewModel) {
+    private final ViewManagerModel viewManagerModel;
+
+    public AddFriendView(AddFriendViewModel addFriendViewModel, ViewManagerModel viewManagerModel, LoggedInViewModel loggedInViewModel) {
         this.addFriendViewModel = addFriendViewModel;
         this.addFriendViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
+        this.loggedInViewModel = loggedInViewModel;
         System.out.println("Hello");
 
         final JLabel title = new JLabel("Add Friend");
@@ -41,19 +53,26 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         final JPanel buttons = new JPanel();
         addFriendButton = new JButton("Add Friend");
         buttons.add(addFriendButton);
-        cancelButton = new JButton("Cancel");
-        buttons.add(cancelButton);
+        homeScreenButton = new JButton("Main Screen");
+        buttons.add(homeScreenButton);
 
         addFriendButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(addFriendButton)) {
-                    final AddFriendState currentState = addFriendViewModel.getState();
-                    addFriendController.execute(currentState.getUsername(), currentState.getFriendUsername());
+                    final AddFriendState friendState = addFriendViewModel.getState();
+                    final LoggedInState currentState = loggedInViewModel.getState();
+                    addFriendController.execute(currentState.getUsername(), friendState.getFriendUsername());
                 }
             }
         });
 
-        cancelButton.addActionListener(this);
+        homeScreenButton.addActionListener(evt -> {
+            LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel);
+            loggedInView.setLogoutController(logoutController);
+            loggedInView.setVisible(true);
+            viewManagerModel.setState("logged in");
+            viewManagerModel.firePropertyChanged();
+        });
         friendUsernameInputField.getDocument().addDocumentListener(new DocumentListener() {
             private void documentListenerHelper() {
                 final AddFriendState currentState = addFriendViewModel.getState();
@@ -82,6 +101,7 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         this.add(title);
         this.add(friendUsernameInfo);
         this.add(friendUsernameErrorField);
+        this.add(friendUsernameSuccessLabel);
         this.add(buttons);
         this.setVisible(true);
     }
@@ -95,6 +115,7 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         final AddFriendState state = (AddFriendState) evt.getNewValue();
         setFields(state);
         friendUsernameErrorField.setText(state.getErrorMessage());
+        friendUsernameSuccessLabel.setText(state.getSuccessMessage());
     }
 
     private void setFields(AddFriendState state) {

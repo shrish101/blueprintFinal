@@ -4,7 +4,7 @@ import entity.User;
 
 public interface AddFriendUserDataAccessInterface {
 
-    boolean isUserExist(String username);
+    boolean existsByName(String friendUsername);
 
     boolean addFriend(String username, String friendUsername);
 }

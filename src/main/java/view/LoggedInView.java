@@ -144,7 +144,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             //    JOptionPane.showMessageDialog(null, "Please enter a valid username to add as a friend.");
             // }
             AddFriendViewModel addFriendViewModel = new AddFriendViewModel();
-            AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
+            AddFriendView addFriendView = new AddFriendView(addFriendViewModel, viewManagerModel, loggedInViewModel);
             addFriendView.setAddFriendController(addFriendController);
             addFriendView.setVisible(true);
             viewManagerModel.setState("add friend");

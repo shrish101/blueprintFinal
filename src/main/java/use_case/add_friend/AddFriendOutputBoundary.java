@@ -7,9 +7,9 @@ public interface AddFriendOutputBoundary {
 
     /**
      * Prepares the success view with the output data.
-     * @param response the output data
+     * @param success the output data
      */
-    void prepareSuccessView(AddFriendOutputData response);
+    void prepareSuccessView(String success);
 
     /**
      * Prepares the failure view with an error message.

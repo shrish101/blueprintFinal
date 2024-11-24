@@ -133,7 +133,7 @@ public class AppBuilder {
     public AppBuilder addAddFriendView() {
         // Create AddFriendViewModel and AddFriendView instances
         addFriendViewModel = new AddFriendViewModel();
-        addFriendView = new AddFriendView(addFriendViewModel);
+        addFriendView = new AddFriendView(addFriendViewModel, viewManagerModel, loggedInViewModel);
 
         // Add the view to the card panel with its unique view name
         cardPanel.add(addFriendView, addFriendView.getViewName());
@@ -145,7 +145,7 @@ public class AppBuilder {
     public AppBuilder addAddFriendUseCase() {
         final AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel);
         final AddFriendInputBoundary addFriendInteractor = new AddFriendInteractor(
-                addFriendOutputBoundary);
+                addFriendOutputBoundary, userDataAccessObject);
 
         final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
         addFriendView.setAddFriendController(addFriendController);

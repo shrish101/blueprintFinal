@@ -8,10 +8,12 @@ public class AddFriendState {
     private String username = "";
     private String friendUsername = "";
     private String errorMessage = "";
+    private String successMessage = "";
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public String getUsername() {
+        System.out.println("add friend state");
         return username;
     }
 
@@ -33,6 +35,17 @@ public class AddFriendState {
         String oldValue = this.errorMessage;
         this.errorMessage = errorMessage;
         support.firePropertyChange("errorMessage", oldValue, errorMessage);
+    }
+
+    public String getSuccessMessage() {
+        return successMessage;
+    }
+
+    public void setSuccessMessage(String successMessage) {
+        String oldValue = this.successMessage;
+        this.successMessage = successMessage;
+        support.firePropertyChange("successMessage", oldValue, successMessage);
+        System.out.println("set success message workiing");
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
