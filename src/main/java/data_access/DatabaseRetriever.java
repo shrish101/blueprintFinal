@@ -1,7 +1,8 @@
-package app.data_access;
+package data_access;
+
+import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
-import org.bson.Document;
 
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class DatabaseRetriever {
      * @return an Optional containing the found document or empty if not found.
      */
     public Optional<Document> findDocument(String key, String value) {
-        Document document = collection.find(eq(key, value)).first();
+        final Document document = collection.find(eq(key, value)).first();
         return Optional.ofNullable(document);
     }
 }
