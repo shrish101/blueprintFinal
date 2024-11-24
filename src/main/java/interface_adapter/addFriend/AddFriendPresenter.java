@@ -16,8 +16,11 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(AddFriendOutputData response) {
-
+    public void prepareSuccessView(String success) {
+        final AddFriendState addFriendState = addFriendViewModel.getState();
+        addFriendState.setSuccessMessage(success);
+        addFriendViewModel.firePropertyChanged();
+        System.out.println("presenter working");
     }
 
     @Override

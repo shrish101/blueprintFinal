@@ -84,6 +84,37 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
 
     @Override
     public boolean addFriend(String username, String friendUsername) {
-        return false;
+        Document userDoc = userCollection.find(Filters.eq("username", username)).first();
+        Document friendDoc = userCollection.find(Filters.eq("username", friendUsername)).first();
+
+        // Check if both users exist
+        if (userDoc == null || friendDoc == null) {
+            return false; // One or both users do not exist
+        }
+
+        // Get the current friends list for both users
+        List<String> userFriends = userDoc.getList("friends", String.class);
+        List<String> friendFriends = friendDoc.getList("friends", String.class);
+
+        // Check if they are already friends
+        if (userFriends.contains(friendUsername) || friendFriends.contains(username)) {
+            return false; // They are already friends
+        }
+
+        // Add each other to their respective friends lists
+        userFriends.add(friendUsername);
+        friendFriends.add(username);
+
+        // Update the user documents in the database
+        userCollection.updateOne(
+                Filters.eq("username", username),
+                new Document("$set", new Document("friends", userFriends))
+        );
+        userCollection.updateOne(
+                Filters.eq("username", friendUsername),
+                new Document("$set", new Document("friends", friendFriends))
+        );
+        System.out.println(5);
+        return true; // Friendship successfully added
     }
 }

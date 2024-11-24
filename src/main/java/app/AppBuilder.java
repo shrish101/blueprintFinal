@@ -133,7 +133,7 @@ public class AppBuilder {
     public AppBuilder addAddFriendView() {
         // Create AddFriendViewModel and AddFriendView instances
         addFriendViewModel = new AddFriendViewModel();
-        addFriendView = new AddFriendView(addFriendViewModel, viewManagerModel);
+        addFriendView = new AddFriendView(addFriendViewModel, viewManagerModel, loggedInViewModel);
 
         // Add the view to the card panel with its unique view name
         cardPanel.add(addFriendView, addFriendView.getViewName());
