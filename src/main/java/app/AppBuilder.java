@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.InMemoryUserDataAccessObject;
+import data_access.MessageDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
@@ -24,6 +25,7 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
+import use_case.edit_message.*;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -37,6 +39,8 @@ import view.LoggedInView;
 import view.LoginView;
 import view.SignupView;
 import view.ViewManager;
+import interface_adapter.edit_message.EditMessageController;
+import interface_adapter.edit_message.EditMessagePresenter;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -44,21 +48,15 @@ import view.ViewManager;
  * <p/>
  * This is done by adding each View and then adding related Use Cases.
  */
-// Checkstyle note: you can ignore the "Class Data Abstraction Coupling"
-//                  and the "Class Fan-Out Complexity" issues for this lab; we encourage
-//                  your team to think about ways to refactor the code to resolve these
-//                  if your team decides to work with this as your starter code
-//                  for your final project this term.
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
     private final CardLayout cardLayout = new CardLayout();
-    // thought question: is the hard dependency below a problem?
     private final UserFactory userFactory = new CommonUserFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
-    // thought question: is the hard dependency below a problem?
     private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+    private final MessageDataAccessObject messageDataAccessObject = new MessageDataAccessObject();
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
@@ -168,13 +166,24 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Edit Message Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addEditMessageUseCase() {
+        final EditOutputBoundry editMessageOutputBoundary = new EditMessagePresenter();
+        final EditInputBoundry editMessageInteractor = new EditInteractor(messageDataAccessObject, editMessageOutputBoundary);
+        final EditMessageController editMessageController = new EditMessageController(editMessageInteractor);
+        loggedInView.setEditMessageController(editMessageController);
+        return this;
+    }
+
+    /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */
     public JFrame build() {
         final JFrame application = new JFrame("Ginky");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         application.add(cardPanel);
 
         viewManagerModel.setState(signupView.getViewName());
@@ -183,5 +192,3 @@ public class AppBuilder {
         return application;
     }
 }
-
-// Testing

@@ -9,10 +9,9 @@ import entity.CommonMessage;
 import org.bson.Document;
 import io.github.cdimascio.dotenv.Dotenv;
 
-import java.util.ArrayList;
-import java.util.List;
+import use_case.edit_message.EditUserDataAccessInterface;
 
-public class MessageDataAccessObject {
+public class MessageDataAccessObject implements EditUserDataAccessInterface {
 
     private final MongoCollection<Document> messageCollection;
 
@@ -21,11 +20,9 @@ public class MessageDataAccessObject {
         String uri = dotenv.get("MONGODB_URI");
 
         // Connect to MongoDB and get the "messages" collection
-        MongoCollection<Document> messageCollection = MongoClients.create(uri)
+        this.messageCollection = MongoClients.create(uri)
                 .getDatabase("TranslateApp")
                 .getCollection("messages");
-
-        this.messageCollection = messageCollection;
     }
 
     // Method to save a message to MongoDB
@@ -38,9 +35,40 @@ public class MessageDataAccessObject {
         messageCollection.insertOne(messageDoc);
     }
 
-    public List<Message> getAllMessages() {
-        //need to be implemented for later
+    @Override
+    public Message getLatestMessageByUser(String user) {
+        // Find the most recent message from the user, based on the _id (most recent document)
+        Document latestMessageDoc = messageCollection.find(Filters.eq("sender", user))
+                .sort(new Document("_id", -1))
+                .first();
+
+        if (latestMessageDoc != null) {
+            return new CommonMessage(
+                    latestMessageDoc.getString("sender"),
+                    latestMessageDoc.getString("recipient"),
+                    latestMessageDoc.getString("originalMessage"),
+                    latestMessageDoc.getString("translatedMessage")
+            );
+        }
         return null;
+    }
+
+    @Override
+    public void updateMessage(Message latestMessage, String newOriginalMessage) {
+        // Find the most recent message sent by the user
+        Document latestMessageDoc = messageCollection.find(Filters.eq("sender", latestMessage.getSender()))
+                .sort(new Document("_id", -1))
+                .first();
+
+        if (latestMessageDoc != null) {
+            messageCollection.updateOne(
+                    Filters.eq("_id", latestMessageDoc.getObjectId("_id")),
+                    Updates.combine(
+                            Updates.set("originalMessage", newOriginalMessage),
+                            Updates.set("translatedMessage", newOriginalMessage) // translate using api
+                    )
+            );
+        }
     }
 
 }

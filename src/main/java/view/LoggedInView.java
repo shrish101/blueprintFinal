@@ -3,7 +3,6 @@ package view;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -21,6 +20,7 @@ import entity.Message;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.edit_message.EditMessageController;
 import interface_adapter.logout.LogoutController;
 
 /**
@@ -37,10 +37,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JLabel username;
 
     private final JButton logOut;
-
     private final JButton sync;
-
     private final JButton search;
+    private final JButton editMessageButton;
 
     private final JTextField passwordInputField = new JTextField(15);
     private final JButton changePassword;
@@ -49,6 +48,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JTextField chatInputField;
 
     private final MessageDataAccessObject messageDataAccessObject;
+    private EditMessageController editMessageController;
 
     public LoggedInView(LoggedInViewModel loggedInViewModel) {
         this.loggedInViewModel = loggedInViewModel;
@@ -77,6 +77,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         search = new JButton("Search");
 
+        editMessageButton = new JButton("Edit Message");
+        buttons.add(editMessageButton);
+
         chatArea = new JTextArea(10, 30);
         chatArea.setEditable(false);
 
@@ -87,7 +90,6 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         passwordInputField.getDocument().addDocumentListener(new DocumentListener() {
-
             private void documentListenerHelper() {
                 final LoggedInState currentState = loggedInViewModel.getState();
                 currentState.setPassword(passwordInputField.getText());
@@ -125,7 +127,6 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                 evt -> {
                     if (evt.getSource().equals(changePassword)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
-
                         this.changePasswordController.execute(
                                 currentState.getUsername(),
                                 currentState.getPassword(),
@@ -151,13 +152,25 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             String username = loggedInViewModel.getState().getUsername();
             String language = loggedInViewModel.getState().getLanguage();
 
-            //need to properly implement who recieving what...
             Message message = new CommonMessage(username, "recipient", messageText, messageText);
             messageDataAccessObject.saveMessage(message);
 
             chatArea.append("You: " + messageText + "\n");
             chatInputField.setText("");
         });
+
+        // EDITTING MESSAGE
+        editMessageButton.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(editMessageButton)) {
+                        final LoggedInState currentState = loggedInViewModel.getState();
+
+                        EditView editView = new EditView(currentState.getUsername());
+                        editView.setEditMessageController(editMessageController);
+                        editView.setVisible(true);
+                    }
+                }
+        );
 
         this.add(title);
         this.add(usernameInfo);
@@ -184,7 +197,6 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             final LoggedInState state = (LoggedInState) evt.getNewValue();
             JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
         }
-
     }
 
     public String getViewName() {
@@ -193,6 +205,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     public void setChangePasswordController(ChangePasswordController changePasswordController) {
         this.changePasswordController = changePasswordController;
+    }
+
+    public void setEditMessageController(EditMessageController controller) {
+        this.editMessageController = controller;
     }
 
     public void setLogoutController(LogoutController logoutController) {
