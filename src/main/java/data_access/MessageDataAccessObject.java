@@ -10,6 +10,8 @@ import org.bson.Document;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import use_case.edit_message.EditUserDataAccessInterface;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageDataAccessObject implements EditUserDataAccessInterface {
 
@@ -69,6 +71,26 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface {
                     )
             );
         }
+    }
+
+    public List<Message> getAllMessages() {
+        List<Message> messages = new ArrayList<>();
+        try {
+            // Retrieve all documents from the "messages" collection
+            for (Document doc : messageCollection.find()) {
+                // Convert each document into a Message object
+                Message message = new CommonMessage(
+                        doc.getString("sender"),
+                        doc.getString("recipient"),
+                        doc.getString("originalMessage"),
+                        doc.getString("translatedMessage")
+                );
+                messages.add(message);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return messages;
     }
 
 }
