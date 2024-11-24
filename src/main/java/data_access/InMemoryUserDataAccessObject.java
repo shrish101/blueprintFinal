@@ -83,11 +83,6 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     }
 
     @Override
-    public boolean isUserExist(String username) {
-        return false;
-    }
-
-    @Override
     public boolean addFriend(String username, String friendUsername) {
         return false;
     }

@@ -12,6 +12,7 @@ public class AddFriendState {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public String getUsername() {
+        System.out.println(username);
         return username;
     }
 

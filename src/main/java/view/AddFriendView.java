@@ -11,9 +11,12 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.addFriend.AddFriendController;
 import interface_adapter.addFriend.AddFriendState;
 import interface_adapter.addFriend.AddFriendViewModel;
+import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.logout.LogoutController;
 
 public class AddFriendView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -24,12 +27,16 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
     private final JLabel friendUsernameErrorField = new JLabel();
 
     private final JButton addFriendButton;
-    private final JButton cancelButton;
+    private final JButton homeScreenButton;
     private AddFriendController addFriendController;
+    private LogoutController logoutController;
 
-    public AddFriendView(AddFriendViewModel addFriendViewModel) {
+    private final ViewManagerModel viewManagerModel;
+
+    public AddFriendView(AddFriendViewModel addFriendViewModel, ViewManagerModel viewManagerModel) {
         this.addFriendViewModel = addFriendViewModel;
         this.addFriendViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel = viewManagerModel;
         System.out.println("Hello");
 
         final JLabel title = new JLabel("Add Friend");
@@ -41,19 +48,27 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         final JPanel buttons = new JPanel();
         addFriendButton = new JButton("Add Friend");
         buttons.add(addFriendButton);
-        cancelButton = new JButton("Cancel");
-        buttons.add(cancelButton);
+        homeScreenButton = new JButton("Main Screen");
+        buttons.add(homeScreenButton);
 
         addFriendButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(addFriendButton)) {
                     final AddFriendState currentState = addFriendViewModel.getState();
                     addFriendController.execute(currentState.getUsername(), currentState.getFriendUsername());
+                    System.out.println("Helloooo");
                 }
             }
         });
 
-        cancelButton.addActionListener(this);
+        homeScreenButton.addActionListener(evt -> {
+            LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+            LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel);
+            loggedInView.setLogoutController(logoutController);
+            loggedInView.setVisible(true);
+            viewManagerModel.setState("logged in");
+            viewManagerModel.firePropertyChanged();
+        });
         friendUsernameInputField.getDocument().addDocumentListener(new DocumentListener() {
             private void documentListenerHelper() {
                 final AddFriendState currentState = addFriendViewModel.getState();

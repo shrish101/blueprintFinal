@@ -9,7 +9,7 @@ import use_case.login.LoginOutputData;
 /**
  * The Presenter for the Login Use Case.
  */
-public class  LoginPresenter implements LoginOutputBoundary {
+public class LoginPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
     private final LoggedInViewModel loggedInViewModel;
