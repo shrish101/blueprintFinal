@@ -32,9 +32,11 @@ public class AddFriendState {
     }
 
     public void setErrorMessage(String errorMessage) {
+        this.successMessage = "";
         String oldValue = this.errorMessage;
         this.errorMessage = errorMessage;
         support.firePropertyChange("errorMessage", oldValue, errorMessage);
+        System.out.println("set error message");
     }
 
     public String getSuccessMessage() {
@@ -42,6 +44,7 @@ public class AddFriendState {
     }
 
     public void setSuccessMessage(String successMessage) {
+        this.errorMessage = "";
         String oldValue = this.successMessage;
         this.successMessage = successMessage;
         support.firePropertyChange("successMessage", oldValue, successMessage);
