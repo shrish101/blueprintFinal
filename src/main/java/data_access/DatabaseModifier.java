@@ -1,8 +1,14 @@
-package app.data_access;
+package data_access;
 
-import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
+import com.mongodb.client.MongoCollection;
+
+/**
+ * A utility class for modifying documents in a MongoDB collection.
+ *
+ * @null This class does not accept null values for the collection field.
+ */
 public class DatabaseModifier {
 
     private final MongoCollection<Document> collection;

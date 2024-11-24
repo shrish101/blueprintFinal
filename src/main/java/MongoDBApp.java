@@ -7,8 +7,8 @@ import com.mongodb.client.MongoDatabase;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.bson.Document;
 
-import app.data_access.DatabaseModifier;
-import app.data_access.DatabaseRetriever;
+import data_access.DatabaseModifier;
+import data_access.DatabaseRetriever;
 
 import java.util.Optional;
 

@@ -20,6 +20,7 @@ public class Main {
                                             .addAddFriendView()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
+                                            .addEditMessageUseCase()
                                             .addAddFriendUseCase()
                                             .addChangePasswordUseCase()
                                             .build();
