@@ -25,7 +25,7 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
             System.out.println("this works");
         }
         // Add validation or logic for adding a friend here.
-        if (username.equals(friendUsername)) {
+        else if (username.equals(friendUsername)) {
             presenter.prepareFailView("You cannot add yourself as a friend.");
             System.out.println("same works");
         }
@@ -34,6 +34,16 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
             final AddFriendOutputData outputData = new AddFriendOutputData(friendUsername, false);
             presenter.prepareSuccessView(friendUsername + " successfully added as your friend!");
             System.out.println("goes to correct case");
+            final boolean check = userDataAccessObject.addFriend(username, friendUsername);
+            if (!check) {
+                presenter.prepareFailView("You have already added " + friendUsername + " as your friend.");
+                System.out.println("added already works");
+            }
+            else {
+                AddFriendOutputData outputData = new AddFriendOutputData(friendUsername, false);
+                presenter.prepareSuccessView(friendUsername + " successfully added as your friend!");
+                System.out.println("goes to correct case");
+            }
         }
     }
 }
