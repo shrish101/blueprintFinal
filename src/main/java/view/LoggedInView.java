@@ -228,6 +228,11 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         }
     }
 
+    private void loadChat(String friend) {
+        chatInputField.setText("");
+        List<Message> messageList = messageController.getmessages("loggedin_user", friend)
+    }
+
     public String getViewName() {
         return viewName;
     }
