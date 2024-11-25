@@ -10,7 +10,7 @@ public class ChangePasswordInputData {
     private final String password;
     private final String username;
     private final String language;
-    private final List<String> friends;  // Add a friends field
+    private final List<String> friends;
 
     public ChangePasswordInputData(String password, String username, String language, List<String> friends) {
         this.password = password;
@@ -32,6 +32,6 @@ public class ChangePasswordInputData {
     }
 
     public List<String> getFriends() {
-        return friends; // Return the friends list
+        return friends;
     }
 }

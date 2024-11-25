@@ -1,16 +1,23 @@
 package use_case.search_messages;
 
-import entity.Message;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import entity.Message;
+
+/**
+ * The SearchMessagesInteractor is responsible for handling the logic for searching messages.
+ * It retrieves all messages from the data access layer, filters them based on the provided query,
+ * and presents the results to the user through the presenter.
+ */
 
 public class SearchMessagesInteractor implements SearchMessagesInputBoundary {
 
     private final SearchMessagesUserDataAccessInterface dataAccess;
     private final SearchMessagesOutputBoundary presenter;
 
-    public SearchMessagesInteractor(SearchMessagesUserDataAccessInterface dataAccess, SearchMessagesOutputBoundary presenter) {
+    public SearchMessagesInteractor(SearchMessagesUserDataAccessInterface dataAccess,
+                                    SearchMessagesOutputBoundary presenter) {
         this.dataAccess = dataAccess;
         this.presenter = presenter;
     }
@@ -18,28 +25,28 @@ public class SearchMessagesInteractor implements SearchMessagesInputBoundary {
     @Override
     public void searchMessages(SearchMessagesInputData inputData) {
         try {
-            String query = inputData.getQuery();
-            List<Message> allMessages = dataAccess.getAllMessages();
-            List<String> results = new ArrayList<>();
+            final String query = inputData.getQuery();
+            final List<Message> allMessages = dataAccess.getAllMessages();
+            final List<String> results = new ArrayList<>();
 
             for (Message message : allMessages) {
                 if (message.getTranslatedContent().toLowerCase().contains(query.toLowerCase())) {
-                    String sender = message.getSender();
-                    String recipient = message.getRecipient();
-                    String originalMessage = message.getOriginalLanguage();
-                    String translatedMessage = message.getTranslatedContent();
+                    final String sender = message.getSender();
+                    final String recipient = message.getRecipient();
+                    final String originalMessage = message.getOriginalLanguage();
+                    final String translatedMessage = message.getTranslatedContent();
 
-                    results.add(String.format("From: %s, To: %s, Message: %s, Translation: %s", sender, recipient, originalMessage, translatedMessage));
+                    results.add(String.format("From: %s, To: %s, Message: %s, Translation: %s", sender,
+                            recipient, originalMessage, translatedMessage));
                 }
             }
 
-            SearchMessagesOutputData outputData = new SearchMessagesOutputData(results, !results.isEmpty());
+            final SearchMessagesOutputData outputData = new SearchMessagesOutputData(results, !results.isEmpty());
             presenter.presentSearchResults(outputData);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             presenter.presentError("Error connecting to database: " + e.getMessage());
         }
     }
 }
-
-

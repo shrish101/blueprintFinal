@@ -1,7 +1,5 @@
 package interface_adapter.addFriend;
 
-import interface_adapter.login.LoginState;
-import use_case.add_friend.AddFriendOutputData;
 import use_case.add_friend.AddFriendOutputBoundary;
 
 /**

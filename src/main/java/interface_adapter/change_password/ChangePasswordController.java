@@ -1,8 +1,9 @@
 package interface_adapter.change_password;
 
+import java.util.List;
+
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInputData;
-import java.util.List;
 
 /**
  * Controller for the Change Password Use Case.
@@ -23,7 +24,8 @@ public class ChangePasswordController {
      */
     public void execute(String password, String username, String language, List<String> friends) {
         // Pass all the required data, including the friends list
-        final ChangePasswordInputData changePasswordInputData = new ChangePasswordInputData(password, username, language, friends);
+        final ChangePasswordInputData changePasswordInputData = new ChangePasswordInputData(password,
+                username, language, friends);
 
         // Execute the use case
         userChangePasswordUseCaseInteractor.execute(changePasswordInputData);

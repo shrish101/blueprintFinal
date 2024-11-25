@@ -1,15 +1,18 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
-import java.awt.event.*;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.addFriend.AddFriendController;
@@ -18,8 +21,13 @@ import interface_adapter.addFriend.AddFriendViewModel;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.logout.LogoutController;
-import interface_adapter.change_password.LoggedInState;
 
+/**
+ * The AddFriendView class is a JPanel that allows users to add a friend by entering their username.
+ * It provides a user interface with fields for inputting the friend's username, displaying error
+ * and success messages, and navigating to the main screen.
+ * It interacts with the AddFriendViewModel to handle the state and business logic.
+ */
 public class AddFriendView extends JPanel implements ActionListener, PropertyChangeListener {
 
     private final String viewName = "add friend";
@@ -37,7 +45,8 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
 
     private final ViewManagerModel viewManagerModel;
 
-    public AddFriendView(AddFriendViewModel addFriendViewModel, ViewManagerModel viewManagerModel, LoggedInViewModel loggedInViewModel) {
+    public AddFriendView(AddFriendViewModel addFriendViewModel, ViewManagerModel viewManagerModel,
+                         LoggedInViewModel loggedInViewModel) {
         this.addFriendViewModel = addFriendViewModel;
         this.addFriendViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
@@ -67,7 +76,7 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         });
 
         homeScreenButton.addActionListener(evt -> {
-            LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel);
+            final LoggedInView loggedInView = new LoggedInView(loggedInViewModel, viewManagerModel);
             loggedInView.setLogoutController(logoutController);
             loggedInView.setVisible(true);
             viewManagerModel.setState("logged in");
@@ -106,6 +115,11 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         this.setVisible(true);
     }
 
+    /**
+     * Handles the action performed event when a button is clicked.
+     *
+     * @param evt The ActionEvent triggered by a button click.
+     */
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
     }

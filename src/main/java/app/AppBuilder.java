@@ -11,11 +11,14 @@ import data_access.MessageDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.addFriend.AddFriendController;
 import interface_adapter.addFriend.AddFriendPresenter;
 import interface_adapter.addFriend.AddFriendViewModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.edit_message.EditMessageController;
+import interface_adapter.edit_message.EditMessagePresenter;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -24,10 +27,15 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import use_case.add_friend.AddFriendInputBoundary;
+import use_case.add_friend.AddFriendInteractor;
+import use_case.add_friend.AddFriendOutputBoundary;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
-import use_case.edit_message.*;
+import use_case.edit_message.EditInputBoundry;
+import use_case.edit_message.EditInteractor;
+import use_case.edit_message.EditOutputBoundry;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -37,18 +45,11 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import view.AddFriendView;
 import view.LoggedInView;
 import view.LoginView;
 import view.SignupView;
 import view.ViewManager;
-import interface_adapter.edit_message.EditMessageController;
-import interface_adapter.edit_message.EditMessagePresenter;
-import use_case.add_friend.AddFriendInputBoundary;
-import use_case.add_friend.AddFriendOutputBoundary;
-import interface_adapter.addFriend.*;
-import use_case.add_friend.AddFriendInteractor;
-
-import view.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -90,8 +91,6 @@ public class AppBuilder {
         return this;
     }
 
-
-
     /**
      * Adds the Login View to the application.
      * @return this builder
@@ -130,6 +129,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the add friend view to the application.
+     * @return this builder
+     */
     public AppBuilder addAddFriendView() {
         // Create AddFriendViewModel and AddFriendView instances
         addFriendViewModel = new AddFriendViewModel();
@@ -142,6 +145,10 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the add friend Use Case to the application.
+     * @return this builder
+     */
     public AppBuilder addAddFriendUseCase() {
         final AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel);
         final AddFriendInputBoundary addFriendInteractor = new AddFriendInteractor(
@@ -152,6 +159,7 @@ public class AppBuilder {
         System.out.println(2);
         return this;
     }
+
     /**
      * Adds the Login Use Case to the application.
      * @return this builder
@@ -207,7 +215,8 @@ public class AppBuilder {
      */
     public AppBuilder addEditMessageUseCase() {
         final EditOutputBoundry editMessageOutputBoundary = new EditMessagePresenter();
-        final EditInputBoundry editMessageInteractor = new EditInteractor(messageDataAccessObject, editMessageOutputBoundary);
+        final EditInputBoundry editMessageInteractor = new EditInteractor(messageDataAccessObject,
+                editMessageOutputBoundary);
         final EditMessageController editMessageController = new EditMessageController(editMessageInteractor);
         loggedInView.setEditMessageController(editMessageController);
         return this;
