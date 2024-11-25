@@ -24,7 +24,6 @@ public class AddFriendState {
      * @return the current username.
      */
     public String getUsername() {
-        System.out.println("add friend state");
         return username;
     }
 
@@ -69,7 +68,6 @@ public class AddFriendState {
         this.successMessage = "";
         this.errorMessage = errorMessage;
         support.firePropertyChange("errorMessage", oldValue, errorMessage);
-        System.out.println("set error message");
     }
 
     /**
@@ -92,7 +90,6 @@ public class AddFriendState {
         this.errorMessage = "";
         this.successMessage = successMessage;
         support.firePropertyChange("successMessage", oldValue, successMessage);
-        System.out.println("set success message workiing");
     }
 
     /**
