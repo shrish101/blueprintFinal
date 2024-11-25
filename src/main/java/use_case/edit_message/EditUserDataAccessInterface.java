@@ -2,6 +2,10 @@ package use_case.edit_message;
 
 import entity.Message;
 
+/**
+ * The EditUserDataAccessInterface interface defines methods for retrieving and updating user messages.
+ * It provides functionality to get the latest message sent by a user and update the content of a message.
+ */
 public interface EditUserDataAccessInterface {
 
     /**

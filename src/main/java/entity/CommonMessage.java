@@ -1,5 +1,10 @@
 package entity;
 
+/**
+ * Represents a message with sender, recipient, original content, and translated content.
+ * This class implements the {@link Message} interface and provides methods to retrieve
+ * the sender, recipient, original message, and translated message.
+ */
 public class CommonMessage implements Message {
     private final String sender;
     private final String recipient;
@@ -33,5 +38,4 @@ public class CommonMessage implements Message {
     public String getTranslatedContent() {
         return translatedmessage;
     }
-
 }

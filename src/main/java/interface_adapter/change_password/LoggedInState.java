@@ -1,7 +1,7 @@
 package interface_adapter.change_password;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The State information representing the logged-in user.

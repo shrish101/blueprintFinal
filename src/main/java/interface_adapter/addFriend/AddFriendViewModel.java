@@ -9,6 +9,6 @@ public class AddFriendViewModel extends ViewModel<AddFriendState> {
 
     public AddFriendViewModel() {
         super("add friend");
-        setState(new AddFriendState());  // Initializes the state with an AddFriendState object
+        setState(new AddFriendState());
     }
 }
