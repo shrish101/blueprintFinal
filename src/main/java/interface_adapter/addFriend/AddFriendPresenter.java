@@ -1,7 +1,5 @@
 package interface_adapter.addFriend;
 
-import interface_adapter.login.LoginState;
-import use_case.add_friend.AddFriendOutputData;
 import use_case.add_friend.AddFriendOutputBoundary;
 
 /**
@@ -20,7 +18,7 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         final AddFriendState addFriendState = addFriendViewModel.getState();
         addFriendState.setSuccessMessage(success);
         addFriendViewModel.firePropertyChanged();
-        System.out.println("presenter working");
+        System.out.println("presenter success view");
     }
 
     @Override
@@ -28,5 +26,6 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         final AddFriendState addFriendState = addFriendViewModel.getState();
         addFriendState.setErrorMessage(error);
         addFriendViewModel.firePropertyChanged();
+        System.out.println("presenter fail view");
     }
 }

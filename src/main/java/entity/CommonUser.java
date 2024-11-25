@@ -31,7 +31,9 @@ public class CommonUser implements User {
     }
 
     @Override
-    public String getLanguage() { return language; }
+    public String getLanguage() {
+        return language;
+    }
 
     @Override
     public List<String> getFriends() {

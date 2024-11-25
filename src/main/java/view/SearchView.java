@@ -1,98 +1,94 @@
 package view;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import data_access.MessageDataAccessObject;
-import entity.Message;
-import io.github.cdimascio.dotenv.Dotenv;
-import org.bson.Document;
+import interface_adapter.search_messages.SearchMessagesController;
+import interface_adapter.search_messages.SearchMessagesPresenter;
+import use_case.search_messages.SearchMessagesInteractor;
+import use_case.search_messages.SearchMessagesUserDataAccessInterface;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Represents the graphical user interface for searching messages.
+ *
+ * <p>This view allows the user to input a search query and displays the results
+ * or informational messages using pop-up dialogs. The view integrates the MVC
+ * architecture by interacting with a controller, presenter, and interactor.</p>
+ */
 public class SearchView extends JFrame {
-
-    private final MessageDataAccessObject messageDataAccessObject;
 
     private final JTextField searchField;
     private final JButton searchButton;
+    private final SearchMessagesController controller;
+    private final int magic400 = 400;
+    private final int magic300 = 300;
+    private final int magic20 = 20;
 
     public SearchView() {
         setTitle("Search View");
-        setSize(400, 300);
+        setSize(magic400, magic300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Initialize the MessageDataAccessObject to handle MongoDB operations
-        messageDataAccessObject = new MessageDataAccessObject();
-
-        // Create a panel for the input and button
-        final JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout(10, 10));
-
-        // Create and add the text field
-        searchField = new JTextField(20);
-        panel.add(searchField, BorderLayout.CENTER);
-
-        // Create and add the search button
+        // Initialize components
+        searchField = new JTextField(magic20);
         searchButton = new JButton("Search");
-        panel.add(searchButton, BorderLayout.EAST);
 
-        // Add the panel to the frame
+        // Setup layout
+        final JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.add(searchField, BorderLayout.CENTER);
+        panel.add(searchButton, BorderLayout.EAST);
         add(panel, BorderLayout.NORTH);
 
-        // Add a label or area for results (optional)
         final JLabel resultLabel = new JLabel("Enter your search query above and click Search.");
         add(resultLabel, BorderLayout.CENTER);
 
-        // Add ActionListener to handle search
+        // Create presenter and interactor
+        final SearchMessagesPresenter presenter = new SearchMessagesPresenter(this);
+        final SearchMessagesUserDataAccessInterface dataAccess = new MessageDataAccessObject();
+        final SearchMessagesInteractor interactor = new SearchMessagesInteractor(dataAccess, presenter);
+        controller = new SearchMessagesController(interactor);
+
+        // Add action listener to search button
         searchButton.addActionListener(e -> {
             final String query = searchField.getText();
-            if (query.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Search query cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                List<String> results = searchMessages(query);
-                if (results.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "No messages found for: " + query, "No Results", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    StringBuilder resultString = new StringBuilder("Results:\n");
-                    for (String result : results) {
-                        resultString.append(result).append("\n");
-                    }
-                    JOptionPane.showMessageDialog(this, resultString.toString(), "Search Results", JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
+            controller.handleSearch(query);
         });
 
         setLocationRelativeTo(null);
     }
 
-    // Method to search messages in MongoDB using MessageDataAccessObject
-    private List<String> searchMessages(String keyword) {
-        List<String> results = new ArrayList<>();
-
-        try {
-            // Get all messages containing the keyword in the translated message field
-            List<Message> allMessages = messageDataAccessObject.getAllMessages();
-            for (Message message : allMessages) {
-                if (message.getTranslatedContent().toLowerCase().contains(keyword.toLowerCase())) {
-                    String sender = message.getSender();
-                    String recipient = message.getRecipient();
-                    String originalMessage = message.getOriginalLanguage();
-                    String translatedMessage = message.getTranslatedContent();
-
-                    results.add(String.format("From: %s, To: %s, Message: %s, Translation: %s", sender, recipient, originalMessage, translatedMessage));
-                }
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error connecting to database: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-        }
-        return results;
+    /**
+     * Displays the search results in a pop-up dialog.
+     *
+     * @param results The search results to display.
+     */
+    public void showResults(String results) {
+        JOptionPane.showMessageDialog(this, results, "Search Results", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Displays an informational message in a pop-up dialog.
+     *
+     * @param message The message to display.
+     */
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Entry point for launching the {@code SearchView}.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new SearchView().setVisible(true));
     }
 }
-
-

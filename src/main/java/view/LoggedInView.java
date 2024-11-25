@@ -3,6 +3,7 @@ package view;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -11,35 +12,33 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import entity.User;
-import interface_adapter.ViewManagerModel;
-import interface_adapter.addFriend.*;
 import data_access.MessageDataAccessObject;
 import entity.CommonMessage;
 import entity.Message;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.addFriend.AddFriendController;
+import interface_adapter.addFriend.AddFriendViewModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
 import interface_adapter.logout.LogoutController;
-import use_case.add_friend.*;
 
 /**
  * The View for when the user is logged into the program.
  */
 public class LoggedInView extends JPanel implements PropertyChangeListener {
-
     private final String viewName = "logged in";
     private final LoggedInViewModel loggedInViewModel;
     private final JLabel passwordErrorField = new JLabel();
     private ChangePasswordController changePasswordController;
     private AddFriendController addFriendController;
     private LogoutController logoutController;
+    private final int magic10 = 10;
+    private final int magic30 = 30;
 
     private final JLabel username;
 
@@ -64,18 +63,14 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.loggedInViewModel = loggedInViewModel;
         this.loggedInViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
-
         this.messageDataAccessObject = new MessageDataAccessObject();
 
         final JLabel title = new JLabel("Logged In Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         final LabelTextPanel passwordInfo = new LabelTextPanel(
                 new JLabel("Password"), passwordInputField);
-
         final JLabel usernameInfo = new JLabel("Currently logged in: ");
         username = new JLabel();
-
         final JPanel buttons = new JPanel();
         logOut = new JButton("Log Out");
         buttons.add(logOut);
@@ -92,12 +87,12 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         buttons.add(editMessageButton);
         addFriend = new JButton("Add Friend");
 
-        chatArea = new JTextArea(10, 30);
+        chatArea = new JTextArea(magic10, magic30);
         chatArea.setEditable(false);
 
         final JScrollPane chatScrollPane = new JScrollPane(chatArea);
 
-        chatInputField = new JTextField(30);
+        chatInputField = new JTextField(magic30);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -136,15 +131,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         });
 
         addFriend.addActionListener(evt -> {
-            // final AddFriendState currentState = addFriendViewModel.getState();
-            // String friendUsername = currentState.getFriendUsername(); // Assuming this is the friend's username input
-            // if (friendUsername != null && !friendUsername.trim().isEmpty()) {
-            //    addFriendViewModel.addFriend(friendUsername); // Call to add friend through the ViewModel
-            // } else {
-            //    JOptionPane.showMessageDialog(null, "Please enter a valid username to add as a friend.");
-            // }
-            AddFriendViewModel addFriendViewModel = new AddFriendViewModel();
-            AddFriendView addFriendView = new AddFriendView(addFriendViewModel, viewManagerModel, loggedInViewModel);
+            final AddFriendViewModel addFriendViewModel = new AddFriendViewModel();
+            final AddFriendView addFriendView = new AddFriendView(addFriendViewModel, viewManagerModel,
+                    loggedInViewModel);
             addFriendView.setAddFriendController(addFriendController);
             addFriendView.setVisible(true);
             viewManagerModel.setState("add friend");
@@ -156,8 +145,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                     if (evt.getSource().equals(changePassword)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
                         this.changePasswordController.execute(
-                                currentState.getUsername(),
-                                currentState.getPassword(),
+                                currentState.getUsername(), currentState.getPassword(),
                                 currentState.getLanguage(),
                                 currentState.getFriends()
                         );
@@ -177,10 +165,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         chatInputField.addActionListener(evt -> {
             final String messageText = chatInputField.getText();
-            String username = loggedInViewModel.getState().getUsername();
-            String language = loggedInViewModel.getState().getLanguage();
+            final String usern = loggedInViewModel.getState().getUsername();
 
-            Message message = new CommonMessage(username, "recipient", messageText, messageText);
+            final Message message = new CommonMessage(usern, "recipient", messageText, messageText);
             messageDataAccessObject.saveMessage(message);
 
             chatArea.append("You: " + messageText + "\n");
@@ -193,7 +180,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                     if (evt.getSource().equals(editMessageButton)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
 
-                        EditView editView = new EditView(currentState.getUsername());
+                        final EditView editView = new EditView(currentState.getUsername());
                         editView.setEditMessageController(editMessageController);
                         editView.setVisible(true);
                     }
@@ -245,6 +232,11 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.editMessageController = controller;
     }
 
+    /**
+     * Sets the controller responsible for handling the logout action.
+     *
+     * @param logoutController The controller that manages the logout functionality.
+     */
     public void setLogoutController(LogoutController logoutController) {
         // TODO: save the logout controller in the instance variable.
     }

@@ -32,7 +32,9 @@ public class SignupInputData {
         return repeatPassword;
     }
 
-    String getLanguage() { return language; }
+    String getLanguage() {
+        return language;
+    }
 
     public List<String> getFriends() {
         return new ArrayList<>();

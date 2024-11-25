@@ -1,13 +1,17 @@
 package data_access;
 
+import java.util.Optional;
+
 import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
 
-import java.util.Optional;
-
 import static com.mongodb.client.model.Filters.eq;
 
+/**
+ * A utility class for retrieving documents from a MongoDB collection.
+ * This class provides functionality to search for a document by a specific key-value pair.
+ */
 public class DatabaseRetriever {
 
     private final MongoCollection<Document> collection;

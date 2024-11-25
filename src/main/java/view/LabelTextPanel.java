@@ -1,6 +1,8 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * A panel containing a label and a text field.

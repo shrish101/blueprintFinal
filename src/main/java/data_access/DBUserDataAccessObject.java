@@ -1,19 +1,18 @@
 package data_access;
 
+import java.util.List;
+
+import org.bson.Document;
+
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 import entity.User;
 import entity.UserFactory;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
-
-import java.util.List;
-
-import static com.mongodb.client.model.Filters.eq;
 
 /**
  * The DAO for user data using MongoDB.
@@ -26,24 +25,30 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     private final MongoCollection<Document> usersCollection;
     private final UserFactory userFactory;
 
-    public DBUserDataAccessObject(MongoClient mongoClient, String databaseName, String collectionName, UserFactory userFactory) {
-        MongoDatabase database = mongoClient.getDatabase(databaseName);
+    private final String friend = "friends";
+    private final String usern = "username";
+    private final String pass = "password";
+
+    public DBUserDataAccessObject(MongoClient mongoClient, String databaseName,
+                                  String collectionName, UserFactory userFactory) {
+        final MongoDatabase database = mongoClient.getDatabase(databaseName);
         this.usersCollection = database.getCollection(collectionName);
         this.userFactory = userFactory;
     }
 
     @Override
     public User get(String username) {
-        Document query = new Document("username", username);
-        Document userDoc = usersCollection.find(query).first();
+        final Document query = new Document(usern, username);
+        final Document userDoc = usersCollection.find(query).first();
 
         if (userDoc != null) {
-            String name = userDoc.getString("username");
-            String password = userDoc.getString("password");
-            String language = userDoc.getString("language");
-            List<String> friends = userDoc.getList("friends", String.class);
+            final String name = userDoc.getString(usern);
+            final String password = userDoc.getString(pass);
+            final String language = userDoc.getString("language");
+            final List<String> friends = userDoc.getList(friend, String.class);
             return userFactory.create(name, password, language, friends);
-        } else {
+        }
+        else {
             throw new RuntimeException("User not found.");
         }
     }
@@ -55,28 +60,31 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public boolean existsByName(String username) {
-        Document query = new Document("username", username);
+        final Document query = new Document(usern, username);
         return usersCollection.find(query).first() != null;
     }
 
     @Override
     public void save(User user) {
-        Document userDoc = new Document("username", user.getName())
-                .append("password", user.getPassword())
-                .append("friends", user.getFriends())
-                .append("friends", user.getFriends() != null ? user.getFriends() : List.of());
+        List<String> friends = user.getFriends();
+        if (friends == null) {
+            friends = List.of();
+        }
+        final Document userDoc = new Document(usern, user.getName())
+                .append(pass, user.getPassword())
+                .append(friend, friends);
         usersCollection.insertOne(userDoc);
     }
 
     @Override
     public void changePassword(User user) {
-        Document query = new Document("username", user.getName());
-        Document update = new Document("$set", new Document("password", user.getPassword()));
+        final Document query = new Document(usern, user.getName());
+        final Document update = new Document("$set", new Document(pass, user.getPassword()));
         usersCollection.updateOne(query, update);
     }
 
     @Override
     public String getCurrentUsername() {
-        return null; // Not implemented in this example.
+        return null;
     }
 }

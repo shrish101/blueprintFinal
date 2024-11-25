@@ -1,25 +1,38 @@
 package data_access;
 
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Updates;
-import entity.Message;
-import entity.CommonMessage;
-import org.bson.Document;
-import io.github.cdimascio.dotenv.Dotenv;
-
-import use_case.edit_message.EditUserDataAccessInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageDataAccessObject implements EditUserDataAccessInterface {
+import org.bson.Document;
+
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+import entity.CommonMessage;
+import entity.Message;
+import io.github.cdimascio.dotenv.Dotenv;
+import use_case.edit_message.EditUserDataAccessInterface;
+import use_case.search_messages.SearchMessagesUserDataAccessInterface;
+
+/**
+ * This class provides data access functionality for message-related operations, including saving,
+ * retrieving, and updating messages in a MongoDB collection.
+ * The data access object interacts with the "messages" collection in the MongoDB database
+ * associated with the "TranslateApp" database.
+ */
+public class MessageDataAccessObject implements EditUserDataAccessInterface, SearchMessagesUserDataAccessInterface {
 
     private final MongoCollection<Document> messageCollection;
+    private final String send = "sender";
+    private final String reciever = "recipient";
+    private final String ogmessage = "originalMessage";
+    private final String tmessage = "translatedMessage";
+    private final String strid = "_id";
 
     public MessageDataAccessObject() {
-        Dotenv dotenv = Dotenv.load();
-        String uri = dotenv.get("MONGODB_URI");
+        final Dotenv dotenv = Dotenv.load();
+        final String uri = dotenv.get("MONGODB_URI");
 
         // Connect to MongoDB and get the "messages" collection
         this.messageCollection = MongoClients.create(uri)
@@ -27,12 +40,17 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface {
                 .getCollection("messages");
     }
 
-    // Method to save a message to MongoDB
+    /**
+     * Saves a new message to the "messages" collection in MongoDB.
+     *
+     * @param message the message to be saved to the database.
+     * @null The message object cannot be null.
+     */
     public void saveMessage(Message message) {
-        Document messageDoc = new Document("sender", message.getSender())
-                .append("recipient", message.getRecipient())
-                .append("originalMessage", message.getOriginalLanguage())
-                .append("translatedMessage", message.getTranslatedContent());
+        final Document messageDoc = new Document(send, message.getSender())
+                .append(reciever, message.getRecipient())
+                .append(ogmessage, message.getOriginalLanguage())
+                .append(tmessage, message.getTranslatedContent());
 
         messageCollection.insertOne(messageDoc);
     }
@@ -40,16 +58,16 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface {
     @Override
     public Message getLatestMessageByUser(String user) {
         // Find the most recent message from the user, based on the _id (most recent document)
-        Document latestMessageDoc = messageCollection.find(Filters.eq("sender", user))
-                .sort(new Document("_id", -1))
+        final Document latestMessageDoc = messageCollection.find(Filters.eq(send, user))
+                .sort(new Document(strid, -1))
                 .first();
 
         if (latestMessageDoc != null) {
             return new CommonMessage(
-                    latestMessageDoc.getString("sender"),
-                    latestMessageDoc.getString("recipient"),
-                    latestMessageDoc.getString("originalMessage"),
-                    latestMessageDoc.getString("translatedMessage")
+                    latestMessageDoc.getString(send),
+                    latestMessageDoc.getString(reciever),
+                    latestMessageDoc.getString(ogmessage),
+                    latestMessageDoc.getString(tmessage)
             );
         }
         return null;
@@ -58,39 +76,44 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface {
     @Override
     public void updateMessage(Message latestMessage, String newOriginalMessage) {
         // Find the most recent message sent by the user
-        Document latestMessageDoc = messageCollection.find(Filters.eq("sender", latestMessage.getSender()))
-                .sort(new Document("_id", -1))
+        final Document latestMessageDoc = messageCollection.find(Filters.eq(send, latestMessage.getSender()))
+                .sort(new Document(strid, -1))
                 .first();
 
         if (latestMessageDoc != null) {
             messageCollection.updateOne(
-                    Filters.eq("_id", latestMessageDoc.getObjectId("_id")),
+                    Filters.eq(strid, latestMessageDoc.getObjectId(strid)),
                     Updates.combine(
-                            Updates.set("originalMessage", newOriginalMessage),
-                            Updates.set("translatedMessage", newOriginalMessage) // translate using api
+                            Updates.set(ogmessage, newOriginalMessage),
+                            Updates.set(tmessage, newOriginalMessage)
                     )
             );
         }
     }
 
+    /**
+     * Retrieves all messages from the "messages" collection.
+     *
+     * @return a list of all {@link Message} objects, or an empty list if no messages exist.
+     */
     public List<Message> getAllMessages() {
-        List<Message> messages = new ArrayList<>();
+        final List<Message> messages = new ArrayList<>();
         try {
             // Retrieve all documents from the "messages" collection
             for (Document doc : messageCollection.find()) {
                 // Convert each document into a Message object
-                Message message = new CommonMessage(
-                        doc.getString("sender"),
-                        doc.getString("recipient"),
-                        doc.getString("originalMessage"),
-                        doc.getString("translatedMessage")
+                final Message message = new CommonMessage(
+                        doc.getString(send),
+                        doc.getString(reciever),
+                        doc.getString(ogmessage),
+                        doc.getString(tmessage)
                 );
                 messages.add(message);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return messages;
     }
-
 }
