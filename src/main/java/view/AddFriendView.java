@@ -51,7 +51,6 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
         this.addFriendViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
-        System.out.println("Hello");
 
         final JLabel title = new JLabel("Add Friend");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);

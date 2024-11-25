@@ -1,5 +1,6 @@
 package data_access;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -131,5 +132,24 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         );
         System.out.println(magic);
         return true;
+    }
+
+    /**
+     * Retrieve all friends of the given user.
+     * @param username Username of the current account
+     * @return a list of all friends that this person has
+     */
+    public List<String> getAllFriends(String username) {
+        final List<String> friends = new ArrayList<>();
+        try {
+            final Document userDoc = userCollection.find(Filters.eq(usern, username)).first();
+
+            if (userDoc != null && userDoc.containsKey(friend)) {
+                friends.addAll(userDoc.getList(friend, String.class));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return friends;
     }
 }
