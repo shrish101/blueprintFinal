@@ -10,10 +10,12 @@ import org.bson.Document;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import use_case.edit_message.EditUserDataAccessInterface;
+import use_case.search_messages.SearchMessagesUserDataAccessInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageDataAccessObject implements EditUserDataAccessInterface {
+public class MessageDataAccessObject implements EditUserDataAccessInterface, SearchMessagesUserDataAccessInterface {
 
     private final MongoCollection<Document> messageCollection;
 
