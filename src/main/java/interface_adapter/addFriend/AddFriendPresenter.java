@@ -18,7 +18,6 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         final AddFriendState addFriendState = addFriendViewModel.getState();
         addFriendState.setSuccessMessage(success);
         addFriendViewModel.firePropertyChanged();
-        System.out.println("presenter success view");
     }
 
     @Override
@@ -26,6 +25,5 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         final AddFriendState addFriendState = addFriendViewModel.getState();
         addFriendState.setErrorMessage(error);
         addFriendViewModel.firePropertyChanged();
-        System.out.println("presenter fail view");
     }
 }

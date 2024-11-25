@@ -25,7 +25,6 @@ public class AddFriendController {
      */
     public void execute(String username, String friendUsername) {
         final AddFriendInputData inputData = new AddFriendInputData(username, friendUsername);
-        System.out.println("funny");
         addFriendInputBoundary.execute(inputData);
     }
 }
