@@ -116,4 +116,33 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
         }
         return messages;
     }
+
+
+    /**
+     * Retrieves all messages between 2 people
+     * @param username1 Username of one of the people
+     * @param username2 Username of the other person in the conversation
+     * @return a list of all {@link Message} objects, or an empty list if no messages exist.
+     */
+    public List<Message> getMessageConversation(String username1, String username2) {
+        final List<Message> messages = new ArrayList<>();
+        try {
+            for (Document doc : messageCollection.find()) {
+                final Message message = new CommonMessage(
+                        doc.getString(send),
+                        doc.getString(reciever),
+                        doc.getString(ogmessage),
+                        doc.getString(tmessage)
+                );
+                if ((message.getSender() == username1 || message.getSender() == username2) && (message.getRecipient() == username1 || message.getRecipient() == username2)) {
+                    messages.add(message);
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return messages;
+    }
+
 }
