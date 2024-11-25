@@ -126,10 +126,18 @@ public class AddFriendView extends JPanel implements ActionListener, PropertyCha
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        friendUsernameErrorField.setText("");
+        friendUsernameSuccessLabel.setText("");
+
         final AddFriendState state = (AddFriendState) evt.getNewValue();
         setFields(state);
-        friendUsernameErrorField.setText(state.getErrorMessage());
-        friendUsernameSuccessLabel.setText(state.getSuccessMessage());
+
+        if (!state.getErrorMessage().isEmpty()) {
+            friendUsernameErrorField.setText(state.getErrorMessage());
+        }
+        else {
+            friendUsernameSuccessLabel.setText(state.getSuccessMessage());
+        }
     }
 
     private void setFields(AddFriendState state) {

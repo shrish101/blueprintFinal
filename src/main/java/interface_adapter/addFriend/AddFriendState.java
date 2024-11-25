@@ -66,8 +66,11 @@ public class AddFriendState {
      */
     public void setErrorMessage(String errorMessage) {
         final String oldValue = this.errorMessage;
+        this.successMessage = "";
+        String oldValue = this.errorMessage;
         this.errorMessage = errorMessage;
         support.firePropertyChange("errorMessage", oldValue, errorMessage);
+        System.out.println("set error message");
     }
 
     /**
@@ -87,6 +90,8 @@ public class AddFriendState {
      */
     public void setSuccessMessage(String successMessage) {
         final String oldValue = this.successMessage;
+        this.errorMessage = "";
+        String oldValue = this.successMessage;
         this.successMessage = successMessage;
         support.firePropertyChange("successMessage", oldValue, successMessage);
         System.out.println("set success message workiing");
