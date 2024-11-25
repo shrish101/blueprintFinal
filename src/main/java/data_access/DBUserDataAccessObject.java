@@ -66,13 +66,10 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public void save(User user) {
-        List<String> friends = user.getFriends();
-        if (friends == null) {
-            friends = List.of();
-        }
         final Document userDoc = new Document(usern, user.getName())
                 .append(pass, user.getPassword())
-                .append(friend, friends);
+                .append(friend, user.getFriends())
+                .append(friend, user.getFriends() != null ? user.getFriends() : List.of());
         usersCollection.insertOne(userDoc);
     }
 
