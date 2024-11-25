@@ -30,9 +30,6 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
             System.out.println("same works");
         }
         else {
-            userDataAccessObject.addFriend(username, friendUsername);
-            final AddFriendOutputData outputData = new AddFriendOutputData(friendUsername, false);
-            presenter.prepareSuccessView(friendUsername + " successfully added as your friend!");
             System.out.println("goes to correct case");
             final boolean check = userDataAccessObject.addFriend(username, friendUsername);
             if (!check) {
@@ -40,7 +37,7 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
                 System.out.println("added already works");
             }
             else {
-                AddFriendOutputData outputData = new AddFriendOutputData(friendUsername, false);
+                final AddFriendOutputData outputData = new AddFriendOutputData(friendUsername, false);
                 presenter.prepareSuccessView(friendUsername + " successfully added as your friend!");
                 System.out.println("goes to correct case");
             }
