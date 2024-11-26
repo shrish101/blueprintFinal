@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -21,6 +23,7 @@ import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
 import interface_adapter.fetchFriend.FetchFriendController;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 
 /**
@@ -75,7 +78,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         buttons.add(logOut);
         final JComboBox<String> friends = new JComboBox<String>();
 
-        //this.setFetchFriendController(fetchFriendController);
+//        this.setFetchFriendController(fetchFriendController);
 
         changePassword = new JButton("Change Password");
         buttons.add(changePassword);
@@ -146,6 +149,16 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             viewManagerModel.firePropertyChanged();
         });
 
+        friends.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final String selectedLanguage = (String) friends.getSelectedItem();
+                final LoggedInState currentState = loggedInViewModel.getState();
+                currentState.setLanguage(selectedLanguage);
+                loggedInViewModel.setState(currentState);
+            }
+        });
+
         changePassword.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(changePassword)) {
@@ -207,6 +220,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(new JLabel("Chat Area:"));
         this.add(chatScrollPane);
         this.add(chatInputField);
+
+        this.add(new JLabel("Choose Friend"));
+        this.add(friends);
     }
 
     @Override
