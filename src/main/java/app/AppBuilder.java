@@ -226,7 +226,7 @@ public class AppBuilder {
      * Adds the Fetch Friend Use Case to the application.
      * @return this builder
      */
-    public AppBuilder addFriendsUseCase() {
+    public AppBuilder fetchFriendsUseCase() {
         return null;
     }
 
