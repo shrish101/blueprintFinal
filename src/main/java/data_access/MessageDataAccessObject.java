@@ -126,9 +126,7 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
     public List<Message> getMessageConversation(String username1, String username2) {
         final List<Message> messages = new ArrayList<>();
         try {
-            // Retrieve all documents from the "messages" collection
             for (Document doc : messageCollection.find()) {
-                // Convert each document into a Message object
                 final Message message = new CommonMessage(
                         doc.getString(send),
                         doc.getString(reciever),
@@ -136,7 +134,6 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
                         doc.getString(tmessage)
                 );
 
-                // Filter messages for the two users
                 if ((message.getSender().equals(username1) || message.getSender().equals(username2)) &&
                         (message.getRecipient().equals(username1) || message.getRecipient().equals(username2))) {
                     messages.add(message);

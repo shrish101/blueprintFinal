@@ -123,7 +123,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         sync.addActionListener(
                 evt -> {
-                    //loggedInViewModel.setState(loggedInViewModel.getState());
+                    final String userr = loggedInViewModel.getState().getUsername();
+                    System.out.println(messageDataAccessObject.getMessageConversation(userr, "recipient"));
                 }
         );
 
