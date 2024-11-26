@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import data_access.InMemoryUserDataAccessObject;
 import data_access.MessageDataAccessObject;
 import entity.CommonMessage;
 import entity.Message;
@@ -48,6 +49,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JTextArea chatArea;
     private final JTextField chatInputField;
 
+    private final InMemoryUserDataAccessObject inMemoryUserDataAccessObject;
     private final MessageDataAccessObject messageDataAccessObject;
     private EditMessageController editMessageController;
     private final ViewManagerModel viewManagerModel;
@@ -57,6 +59,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.loggedInViewModel.addPropertyChangeListener(this);
         this.viewManagerModel = viewManagerModel;
         this.messageDataAccessObject = new MessageDataAccessObject();
+        this.inMemoryUserDataAccessObject = new InMemoryUserDataAccessObject();
 
         final JLabel title = new JLabel("Logged In Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -115,7 +118,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         sync.addActionListener(
                 evt -> {
-                    System.out.println("Retrieving Data...");
+                    final String usern = loggedInViewModel.getState().getUsername();
+                    System.out.println(inMemoryUserDataAccessObject.getAllFriends(usern));
                 }
         );
 
@@ -211,7 +215,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     private void loadChat(String friend) {
         chatInputField.setText("");
-//        List<Message> messageList = messageController.getmessages("loggedin_user", friend);
+        //List<Message> messageList = messageController.getmessages("loggedin_user", friend)
     }
 
     public String getViewName() {
