@@ -1,5 +1,6 @@
 package data_access;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -14,6 +15,7 @@ import entity.User;
 import io.github.cdimascio.dotenv.Dotenv;
 import use_case.add_friend.AddFriendUserDataAccessInterface;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
+import use_case.fetch_friends.FetchFriendsUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
@@ -29,7 +31,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface, AddFriendUserDataAccessInterface {
+        LogoutUserDataAccessInterface, AddFriendUserDataAccessInterface, FetchFriendsUserDataAccessInterface {
 
     private final MongoCollection<Document> userCollection;
     private String currentUsername;
@@ -131,5 +133,25 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         );
         System.out.println(magic);
         return true;
+    }
+
+    /**
+     * Retrieve all friends of the given user.
+     *
+     * @param username Username of the current account
+     * @return a list of all friends that this person has
+     */
+    public List<String> getFriendsList(String username) {
+        final List<String> friends = new ArrayList<>();
+        try {
+            final Document userDoc = userCollection.find(Filters.eq(usern, username)).first();
+
+            if (userDoc != null && userDoc.containsKey(friend)) {
+                friends.addAll(userDoc.getList(friend, String.class));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return friends;
     }
 }

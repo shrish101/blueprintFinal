@@ -4,14 +4,7 @@ import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -74,6 +67,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         final JPanel buttons = new JPanel();
         logOut = new JButton("Log Out");
         buttons.add(logOut);
+        final JComboBox<User> friends = new JComboBox<User>()
 
         changePassword = new JButton("Change Password");
         buttons.add(changePassword);
@@ -217,7 +211,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     private void loadChat(String friend) {
         chatInputField.setText("");
-        List<Message> messageList = messageController.getmessages("loggedin_user", friend)
+//        List<Message> messageList = messageController.getmessages("loggedin_user", friend);
     }
 
     public String getViewName() {

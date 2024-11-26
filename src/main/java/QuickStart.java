@@ -19,7 +19,7 @@ public class QuickStart {
 
     /**
      * Entry point for the QuickStart application.
-     * <p>Connects to the MongoDB database specified by the connection string in the .env file,
+     * <p>Connects to the MongoDB database specified by the connection string in the ..env file,
      * retrieves a document by a specific key, and prints the document if found.</p>
      *
      * @param args Command-line arguments (not used in this application).
