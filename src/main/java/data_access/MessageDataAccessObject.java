@@ -117,6 +117,7 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
         return messages;
     }
 
+
     /**
      * Retrieves all messages between 2 people
      * @param username1 Username of one of the people
@@ -133,13 +134,12 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
                         doc.getString(ogmessage),
                         doc.getString(tmessage)
                 );
-
-                if ((message.getSender().equals(username1) || message.getSender().equals(username2)) &&
-                        (message.getRecipient().equals(username1) || message.getRecipient().equals(username2))) {
+                if ((message.getSender().equals(username1) || message.getSender().equals(username2)) && (message.getRecipient().equals(username1) || message.getRecipient().equals(username2))) {
                     messages.add(message);
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return messages;
