@@ -6,11 +6,9 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import data_access.InMemoryUserDataAccessObject;
 import data_access.MessageDataAccessObject;
 import entity.CommonMessage;
@@ -23,7 +21,8 @@ import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
 import interface_adapter.fetchFriend.FetchFriendController;
-import interface_adapter.fetchFriend.FetchFriendPresenter;
+import interface_adapter.fetchFriend.FetchFriendState;
+import interface_adapter.fetchFriend.FetchFriendViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
@@ -38,31 +37,22 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private ChangePasswordController changePasswordController;
     private AddFriendController addFriendController;
     private LogoutController logoutController;
-    private FetchFriendPresenter fetchFriendPresenter;
     private final int magic10 = 10;
     private final int magic30 = 30;
-
     private final JLabel username;
-
     private final JButton logOut;
     private final JButton sync;
     private final JButton search;
     private final JButton editMessageButton;
-
     private final JButton addFriend;
-
     private final JTextField passwordInputField = new JTextField(15);
     private final JButton changePassword;
-
     private final JTextArea chatArea;
     private final JTextField chatInputField;
-
     private final InMemoryUserDataAccessObject inMemoryUserDataAccessObject;
     private final MessageDataAccessObject messageDataAccessObject;
     private EditMessageController editMessageController;
-    private FetchFriendController fetchFriendController;
     private final ViewManagerModel viewManagerModel;
-
     private final JComboBox<String> friends;
 
     public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel) {
@@ -82,12 +72,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         logOut = new JButton("Log Out");
         buttons.add(logOut);
 
-        String userrr = loggedInViewModel.getState().getUsername();
-        List<String> ginkyvariable = inMemoryUserDataAccessObject.getFriendsList(userrr);
-        //System.out.println(userrr);
-        //updateFriendsList(ginkyvariable);
-
-        friends = new JComboBox<>(ginkyvariable.toArray(new String[1]));
+        friends = new JComboBox<>();
 
         changePassword = new JButton("Change Password");
         buttons.add(changePassword);
@@ -138,11 +123,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         sync.addActionListener(
                 evt -> {
-                    String userId = loggedInViewModel.getState().getUsername();
-                    fetchFriendController.execute(userId);
-                    List<String> friendsList = fetchFriendPresenter.getFriendsList();
-                    updateFriendsList(friendsList);
-
+                    //loggedInViewModel.setState(loggedInViewModel.getState());
                 }
         );
 
@@ -205,12 +186,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             chatInputField.setText("");
         });
 
-        // EDITTING MESSAGE
         editMessageButton.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(editMessageButton)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
-
                         final EditView editView = new EditView(currentState.getUsername());
                         editView.setEditMessageController(editMessageController);
                         editView.setVisible(true);
@@ -221,18 +200,15 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
-
         this.add(passwordInfo);
         this.add(passwordErrorField);
         this.add(buttons);
         this.add(sync);
         this.add(search);
         this.add(addFriend);
-
         this.add(new JLabel("Chat Area:"));
         this.add(chatScrollPane);
         this.add(chatInputField);
-
         this.add(new JLabel("Choose Friend"));
         this.add(friends);
     }
@@ -249,8 +225,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         if (evt.getPropertyName().equals("state")) {
             final LoggedInState state = (LoggedInState) evt.getNewValue();
             username.setText(state.getUsername());
-        }
-        else if (evt.getPropertyName().equals("password")) {
+            updateFriendsList(state.getFriends());
+        } else if (evt.getPropertyName().equals("password")) {
             final LoggedInState state = (LoggedInState) evt.getNewValue();
             JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
         }
@@ -258,7 +234,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     private void loadChat(String friend) {
         chatInputField.setText("");
-        //List<Message> messageList = messageController.getmessages("loggedin_user", friend)
+        // List<Message> messageList = messageController.getmessages("loggedin_user", friend)
     }
 
     public String getViewName() {
@@ -273,10 +249,6 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.editMessageController = controller;
     }
 
-    public void setFetchFriendController(FetchFriendController controller) {
-        this.fetchFriendController = controller;
-    }
-
     /**
      * Sets the controller responsible for handling the logout action.
      *
@@ -284,9 +256,5 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
      */
     public void setLogoutController(LogoutController logoutController) {
         this.logoutController = logoutController;
-    }
-
-    public void setFetchFriendPresenter(FetchFriendPresenter presenter) {
-        this.fetchFriendPresenter = presenter;
     }
 }

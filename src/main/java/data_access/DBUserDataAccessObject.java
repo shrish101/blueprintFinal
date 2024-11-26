@@ -1,7 +1,9 @@
 package data_access;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
 import com.mongodb.client.MongoClient;
@@ -86,5 +88,26 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     @Override
     public String getCurrentUsername() {
         return null;
+    }
+
+    @Override
+    /**
+     * Retrieve all friends of the given user.
+     *
+     * @param username Username of the current account
+     * @return a list of all friends that this person has
+     */
+    public List<String> getFriendsList(String username) {
+        final List<String> friends = new ArrayList<>();
+        try {
+            final Document userDoc = usersCollection.find(Filters.eq(usern, username)).first();
+
+            if (userDoc != null && userDoc.containsKey(friend)) {
+                friends.addAll(userDoc.getList(friend, String.class));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return friends;
     }
 }

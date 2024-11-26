@@ -10,6 +10,6 @@ public class FetchFriendsOutputData {
     }
 
     public List<String> getFriends() {
-        return friends;
+        return this.friends;
     }
 }

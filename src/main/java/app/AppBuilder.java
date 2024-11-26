@@ -19,6 +19,7 @@ import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
 import interface_adapter.edit_message.EditMessagePresenter;
+import interface_adapter.fetchFriend.FetchFriendViewModel;
 import interface_adapter.fetchFriend.FetchFriendController;
 import interface_adapter.fetchFriend.FetchFriendPresenter;
 import interface_adapter.login.LoginController;
@@ -56,6 +57,7 @@ import view.LoginView;
 import view.SignupView;
 import view.ViewManager;
 
+
 /**
  * The AppBuilder class is responsible for putting together the pieces of
  * our CA architecture; piece by piece.
@@ -80,7 +82,7 @@ public class AppBuilder {
     private LoginView loginView;
     private AddFriendView addFriendView;
     private AddFriendViewModel addFriendViewModel;
-    //private FetchFriendsViewModel fetchFriendsViewModel;
+    private FetchFriendViewModel fetchFriendsViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -225,20 +227,6 @@ public class AppBuilder {
                 editMessageOutputBoundary);
         final EditMessageController editMessageController = new EditMessageController(editMessageInteractor);
         loggedInView.setEditMessageController(editMessageController);
-        return this;
-    }
-
-    /**
-     * Adds the Fetch Friends Use Case to the application.
-     * @return this builder
-     */
-    public AppBuilder addFetchFriendsUseCase() {
-        final FetchFriendsOutputBoundary fetchFriendsOutputBoundary = new FetchFriendPresenter();
-        final FetchFriendsInputBoundary fetchFriendsInteractor = new FetchFriendsInteractor(
-                userDataAccessObject, fetchFriendsOutputBoundary);
-
-        final FetchFriendController fetchFriendsController = new FetchFriendController(fetchFriendsInteractor);
-        loggedInView.setFetchFriendController(fetchFriendsController);
         return this;
     }
 

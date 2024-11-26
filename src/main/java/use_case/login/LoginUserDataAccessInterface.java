@@ -2,6 +2,8 @@ package use_case.login;
 
 import entity.User;
 
+import java.util.List;
+
 /**
  * DAO for the Login Use Case.
  */
@@ -33,9 +35,12 @@ public interface LoginUserDataAccessInterface {
      */
     String getCurrentUsername();
 
+    List<String> getFriendsList(String username);
+
     /**
      * Sets the username indicating who is the current user of the application.
      * @param username the new current username; null to indicate that no one is currently logged into the application.
      */
     void setCurrentUsername(String username);
+
 }
