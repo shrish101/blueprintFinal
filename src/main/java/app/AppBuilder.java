@@ -158,7 +158,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addAddFriendUseCase() {
-        final AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel);
+        final AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel, loggedInViewModel);
         final AddFriendInputBoundary addFriendInteractor = new AddFriendInteractor(
                 addFriendOutputBoundary, userDataAccessObject);
 
