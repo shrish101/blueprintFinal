@@ -3,6 +3,7 @@ package view;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -44,7 +45,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JLabel username;
 
     private final JButton logOut;
-    private final JButton sync;
+    private final JButton show;
     private final JButton search;
     private final JButton editMessageButton;
 
@@ -81,8 +82,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         changePassword = new JButton("Change Password");
         buttons.add(changePassword);
 
-        sync = new JButton("Sync");
-        buttons.add(sync);
+        show = new JButton("Show/Update Messages");
+        buttons.add(show);
 
         search = new JButton("Search");
 
@@ -122,10 +123,13 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             }
         });
 
-        sync.addActionListener(
+        show.addActionListener(
                 evt -> {
-                    final String usern = loggedInViewModel.getState().getUsername();
-                    System.out.println(inMemoryUserDataAccessObject.getAllFriends(usern));
+                    final String username = loggedInViewModel.getState().getUsername();
+                    final List<Message> messages = messageDataAccessObject.getAllMessages();
+                    for (final Message message : messages) {
+                        chatArea.append(message.getTranslatedContent());
+                    }
                 }
         );
 
@@ -198,7 +202,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(passwordInfo);
         this.add(passwordErrorField);
         this.add(buttons);
-        this.add(sync);
+        this.add(show);
         this.add(search);
         this.add(addFriend);
 
