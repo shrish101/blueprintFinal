@@ -19,7 +19,9 @@ import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
+import interface_adapter.fetchFriend.FetchFriendController;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.signup.SignupViewModel;
 
 /**
  * The View for when the user is logged into the program.
@@ -52,6 +54,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final InMemoryUserDataAccessObject inMemoryUserDataAccessObject;
     private final MessageDataAccessObject messageDataAccessObject;
     private EditMessageController editMessageController;
+    private FetchFriendController fetchFriendController;
     private final ViewManagerModel viewManagerModel;
 
     public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel) {
@@ -70,7 +73,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         final JPanel buttons = new JPanel();
         logOut = new JButton("Log Out");
         buttons.add(logOut);
-//        final JComboBox<User> friends = new JComboBox<User>()
+        final JComboBox<String> friends = new JComboBox<String>();
+
+        //this.setFetchFriendController(fetchFriendController);
 
         changePassword = new JButton("Change Password");
         buttons.add(changePassword);
@@ -86,6 +91,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         chatArea = new JTextArea(magic10, magic30);
         chatArea.setEditable(false);
+
+        final LabelTextPanel friends_info = new LabelTextPanel(
+                new JLabel(SignupViewModel.LANGUAGE_LABEL), friends);
 
         final JScrollPane chatScrollPane = new JScrollPane(chatArea);
 
@@ -228,6 +236,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     public void setEditMessageController(EditMessageController controller) {
         this.editMessageController = controller;
+    }
+
+    public void setFetchFriendController(FetchFriendController controller) {
+        this.fetchFriendController = controller;
     }
 
     /**

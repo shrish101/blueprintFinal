@@ -13,7 +13,7 @@ public class FetchFriendsInteractor implements FetchFriendsInputBoundary {
     }
 
     @Override
-    public FetchFriendsOutputData fetchFriends(FetchFriendsInputData inputData) {
+    public FetchFriendsOutputData execute(FetchFriendsInputData inputData) {
         // Fetch friends list
         List<String> friends = userDataAccessObject.getFriendsList(inputData.getUserId());
 
