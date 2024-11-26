@@ -2,6 +2,8 @@ package use_case.login;
 
 import entity.User;
 
+import java.util.List;
+
 /**
  * The Login Interactor.
  */
@@ -30,9 +32,11 @@ public class LoginInteractor implements LoginInputBoundary {
             else {
 
                 final User user = userDataAccessObject.get(loginInputData.getUsername());
+                final List<String> friends = userDataAccessObject.getFriendsList(user.getName());
+                System.out.println(friends);
 
                 userDataAccessObject.setCurrentUsername(user.getName());
-                final LoginOutputData loginOutputData = new LoginOutputData(user.getName(), false);
+                final LoginOutputData loginOutputData = new LoginOutputData(user.getName(), friends, false);
                 loginPresenter.prepareSuccessView(loginOutputData);
             }
         }
