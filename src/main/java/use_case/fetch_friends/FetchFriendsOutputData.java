@@ -1,12 +1,11 @@
 package use_case.fetch_friends;
 
-import entity.User;
 import java.util.List;
 
 public class FetchFriendsOutputData {
-    private final List<User> friends;
+    private final List<String> friends;
 
-    public FetchFriendsOutputData(List<User> friends) {
+    public FetchFriendsOutputData(List<String> friends) {
         this.friends = friends;
     }
 

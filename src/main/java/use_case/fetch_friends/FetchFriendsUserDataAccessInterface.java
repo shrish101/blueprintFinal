@@ -1,6 +1,5 @@
 package use_case.fetch_friends;
 
-import entity.User;
 import java.util.List;
 
 /**
