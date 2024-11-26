@@ -149,6 +149,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                 final LoggedInState currentState = loggedInViewModel.getState();
                 currentState.setLanguage(selectedFriend);
                 loggedInViewModel.setState(currentState);
+                // we need to update the reciever and send message to them...
             }
         });
 
