@@ -70,7 +70,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         final JPanel buttons = new JPanel();
         logOut = new JButton("Log Out");
         buttons.add(logOut);
-        final JComboBox<User> friends = new JComboBox<User>()
+//        final JComboBox<User> friends = new JComboBox<User>()
 
         changePassword = new JButton("Change Password");
         buttons.add(changePassword);
@@ -119,7 +119,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         sync.addActionListener(
                 evt -> {
                     final String usern = loggedInViewModel.getState().getUsername();
-                    System.out.println(inMemoryUserDataAccessObject.getAllFriends(usern));
+                    System.out.println(inMemoryUserDataAccessObject.getFriendsList(usern));
                 }
         );
 
