@@ -134,7 +134,7 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
                         doc.getString(ogmessage),
                         doc.getString(tmessage)
                 );
-                if ((message.getSender() == username1 || message.getSender() == username2) && (message.getRecipient() == username1 || message.getRecipient() == username2)) {
+                if ((message.getSender().equals(username1) || message.getSender().equals(username2)) && (message.getRecipient().equals(username1) || message.getRecipient().equals(username2))) {
                     messages.add(message);
                 }
             }
