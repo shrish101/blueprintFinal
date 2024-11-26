@@ -223,6 +223,14 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Fetch Friend Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder fetchFriendsUseCase() {
+        return null;
+    }
+
+    /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */

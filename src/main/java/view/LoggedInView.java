@@ -1,18 +1,13 @@
 package view;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -27,7 +22,10 @@ import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
+import interface_adapter.fetchFriend.FetchFriendController;
 import interface_adapter.logout.LogoutController;
+import interface_adapter.signup.SignupState;
+import interface_adapter.signup.SignupViewModel;
 
 /**
  * The View for when the user is logged into the program.
@@ -45,7 +43,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final JLabel username;
 
     private final JButton logOut;
-    private final JButton show;
+    private final JButton sync;
     private final JButton search;
     private final JButton editMessageButton;
 
@@ -60,7 +58,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final InMemoryUserDataAccessObject inMemoryUserDataAccessObject;
     private final MessageDataAccessObject messageDataAccessObject;
     private EditMessageController editMessageController;
+    private FetchFriendController fetchFriendController;
     private final ViewManagerModel viewManagerModel;
+
+    private final JComboBox<String> friends;
 
     public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel) {
         this.loggedInViewModel = loggedInViewModel;
@@ -79,11 +80,18 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         logOut = new JButton("Log Out");
         buttons.add(logOut);
 
+        String userrr = loggedInViewModel.getState().getUsername();
+        List<String> ginkyvariable = inMemoryUserDataAccessObject.getFriendsList(userrr);
+        //System.out.println(userrr);
+        //updateFriendsList(ginkyvariable);
+
+        friends = new JComboBox<>(ginkyvariable.toArray(new String[1]));
+
         changePassword = new JButton("Change Password");
         buttons.add(changePassword);
 
-        show = new JButton("Show/Update Messages");
-        buttons.add(show);
+        sync = new JButton("Sync");
+        buttons.add(sync);
 
         search = new JButton("Search");
 
@@ -93,6 +101,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         chatArea = new JTextArea(magic10, magic30);
         chatArea.setEditable(false);
+
+        final LabelTextPanel friends_info = new LabelTextPanel(
+                new JLabel(SignupViewModel.LANGUAGE_LABEL), friends);
 
         final JScrollPane chatScrollPane = new JScrollPane(chatArea);
 
@@ -123,13 +134,12 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             }
         });
 
-        show.addActionListener(
+        sync.addActionListener(
                 evt -> {
-                    final String username = loggedInViewModel.getState().getUsername();
-                    final List<Message> messages = messageDataAccessObject.getAllMessages();
-                    for (final Message message : messages) {
-                        chatArea.append(message.getTranslatedContent());
-                    }
+                    String checkingtest = loggedInViewModel.getState().getUsername();
+                    List<String> abdallahvtest = inMemoryUserDataAccessObject.getFriendsList(checkingtest);
+                    updateFriendsList(abdallahvtest);
+
                 }
         );
 
@@ -146,6 +156,16 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             addFriendView.setVisible(true);
             viewManagerModel.setState("add friend");
             viewManagerModel.firePropertyChanged();
+        });
+
+        friends.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final String selectedFriend = (String) friends.getSelectedItem();
+                final LoggedInState currentState = loggedInViewModel.getState();
+                currentState.setLanguage(selectedFriend);
+                loggedInViewModel.setState(currentState);
+            }
         });
 
         changePassword.addActionListener(
@@ -202,13 +222,16 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(passwordInfo);
         this.add(passwordErrorField);
         this.add(buttons);
-        this.add(show);
+        this.add(sync);
         this.add(search);
         this.add(addFriend);
 
         this.add(new JLabel("Chat Area:"));
         this.add(chatScrollPane);
         this.add(chatInputField);
+
+        this.add(new JLabel("Choose Friend"));
+        this.add(friends);
     }
 
     @Override
@@ -240,12 +263,31 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.editMessageController = controller;
     }
 
+    public void setFetchFriendController(FetchFriendController controller) {
+        this.fetchFriendController = controller;
+    }
+
     /**
      * Sets the controller responsible for handling the logout action.
      *
      * @param logoutController The controller that manages the logout functionality.
      */
     public void setLogoutController(LogoutController logoutController) {
-        // TODO: save the logout controller in the instance variable.
+        this.logoutController = logoutController;
+    }
+
+    public void updateFriendsList(List<String> friendsList) {
+        try {
+            friends.removeAllItems();
+            for (String friend : friendsList) {
+                friends.addItem(friend);
+            }
+        } catch (NullPointerException e) {
+            System.err.println("Error: 'friends' JComboBox is null. Make sure it is properly initialized.");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("An unexpected error occurred while updating friends list.");
+            e.printStackTrace();
+        }
     }
 }
