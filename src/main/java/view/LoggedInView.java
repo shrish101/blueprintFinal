@@ -54,6 +54,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private EditMessageController editMessageController;
     private final ViewManagerModel viewManagerModel;
     private final JComboBox<String> friends;
+    private String selectedFriend;
 
     public LoggedInView(LoggedInViewModel loggedInViewModel, ViewManagerModel viewManagerModel) {
         this.loggedInViewModel = loggedInViewModel;
@@ -142,11 +143,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             viewManagerModel.setState("add friend");
             viewManagerModel.firePropertyChanged();
         });
-
         friends.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final String selectedFriend = (String) friends.getSelectedItem();
+                selectedFriend = (String) friends.getSelectedItem();
                 final LoggedInState currentState = loggedInViewModel.getState();
                 currentState.setLanguage(selectedFriend);
                 loggedInViewModel.setState(currentState);
@@ -182,7 +182,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             final String messageText = chatInputField.getText();
             final String usern = loggedInViewModel.getState().getUsername();
 
-            final Message message = new CommonMessage(usern, "recipient", messageText, messageText);
+            final Message message = new CommonMessage(usern, selectedFriend, messageText, messageText);
             messageDataAccessObject.saveMessage(message);
 
             chatArea.append("You: " + messageText + "\n");
