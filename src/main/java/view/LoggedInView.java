@@ -76,7 +76,12 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         final JPanel buttons = new JPanel();
         logOut = new JButton("Log Out");
         buttons.add(logOut);
+
+        String userrr = loggedInViewModel.getState().getUsername();
+        fetchFriendController.execute(userrr);
+
         final JComboBox<String> friends = new JComboBox<String>();
+
 
 //        this.setFetchFriendController(fetchFriendController);
 
