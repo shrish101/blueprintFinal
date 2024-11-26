@@ -23,6 +23,7 @@ import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
 import interface_adapter.fetchFriend.FetchFriendController;
+import interface_adapter.fetchFriend.FetchFriendPresenter;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
@@ -37,6 +38,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
     private ChangePasswordController changePasswordController;
     private AddFriendController addFriendController;
     private LogoutController logoutController;
+    private FetchFriendPresenter fetchFriendPresenter;
     private final int magic10 = 10;
     private final int magic30 = 30;
 
@@ -136,9 +138,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         sync.addActionListener(
                 evt -> {
-                    String checkingtest = loggedInViewModel.getState().getUsername();
-                    List<String> abdallahvtest = inMemoryUserDataAccessObject.getFriendsList(checkingtest);
-                    updateFriendsList(abdallahvtest);
+                    String userId = loggedInViewModel.getState().getUsername();
+                    fetchFriendController.execute(userId);
+                    List<String> friendsList = fetchFriendPresenter.getFriendsList();
+                    updateFriendsList(friendsList);
 
                 }
         );
@@ -234,6 +237,13 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.add(friends);
     }
 
+    private void updateFriendsList(List<String> friendsList) {
+        friends.removeAllItems();
+        for (String friend : friendsList) {
+            friends.addItem(friend);
+        }
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
@@ -276,18 +286,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         this.logoutController = logoutController;
     }
 
-    public void updateFriendsList(List<String> friendsList) {
-        try {
-            friends.removeAllItems();
-            for (String friend : friendsList) {
-                friends.addItem(friend);
-            }
-        } catch (NullPointerException e) {
-            System.err.println("Error: 'friends' JComboBox is null. Make sure it is properly initialized.");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("An unexpected error occurred while updating friends list.");
-            e.printStackTrace();
-        }
+    public void setFetchFriendPresenter(FetchFriendPresenter presenter) {
+        this.fetchFriendPresenter = presenter;
     }
 }

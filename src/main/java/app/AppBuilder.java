@@ -19,6 +19,8 @@ import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
 import interface_adapter.edit_message.EditMessagePresenter;
+import interface_adapter.fetchFriend.FetchFriendController;
+import interface_adapter.fetchFriend.FetchFriendPresenter;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -36,6 +38,9 @@ import use_case.change_password.ChangePasswordOutputBoundary;
 import use_case.edit_message.EditInputBoundry;
 import use_case.edit_message.EditInteractor;
 import use_case.edit_message.EditOutputBoundry;
+import use_case.fetch_friends.FetchFriendsInputBoundary;
+import use_case.fetch_friends.FetchFriendsInteractor;
+import use_case.fetch_friends.FetchFriendsOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -75,6 +80,7 @@ public class AppBuilder {
     private LoginView loginView;
     private AddFriendView addFriendView;
     private AddFriendViewModel addFriendViewModel;
+    //private FetchFriendsViewModel fetchFriendsViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -223,11 +229,17 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Fetch Friend Use Case to the application.
+     * Adds the Fetch Friends Use Case to the application.
      * @return this builder
      */
-    public AppBuilder fetchFriendsUseCase() {
-        return null;
+    public AppBuilder addFetchFriendsUseCase() {
+        final FetchFriendsOutputBoundary fetchFriendsOutputBoundary = new FetchFriendPresenter();
+        final FetchFriendsInputBoundary fetchFriendsInteractor = new FetchFriendsInteractor(
+                userDataAccessObject, fetchFriendsOutputBoundary);
+
+        final FetchFriendController fetchFriendsController = new FetchFriendController(fetchFriendsInteractor);
+        loggedInView.setFetchFriendController(fetchFriendsController);
+        return this;
     }
 
     /**
