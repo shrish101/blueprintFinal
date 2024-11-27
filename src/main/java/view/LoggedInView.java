@@ -181,9 +181,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         chatInputField.addActionListener(evt -> {
             final String messageText = chatInputField.getText();
             final String usern = loggedInViewModel.getState().getUsername();
+            final String recipientLanguage = loggedInViewModel.getState().getLanguage();
 
-            final Message message = new CommonMessage(usern, selectedFriend, messageText, messageText);
-            messageDataAccessObject.saveMessage(message);
+            final Message message = new CommonMessage(usern, selectedFriend, messageText, messageText, recipientLanguage);
+            messageDataAccessObject.saveMessage(message, recipientLanguage);
 
             chatArea.append("You: " + messageText + "\n");
             chatInputField.setText("");
