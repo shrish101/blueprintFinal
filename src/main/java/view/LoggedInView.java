@@ -244,7 +244,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                 chatArea.append("You: " + message.getOriginalLanguage() + "\n");
             }
             else {
-                chatArea.append(friend + ": " + message.getTranslatedContent() + "\n");
+                String lang = loggedInViewModel.getState().getLanguage();
+                chatArea.append(friend + ": " + message.getTranslatedContent(lang) + "\n");
             }
         }
     }

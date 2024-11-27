@@ -41,9 +41,9 @@ public class CommonMessage implements Message {
     }
 
     @Override
-    public String getTranslatedContent() {
+    public String getTranslatedContent(String lang) {
         String originalLanguage = client.detectLanguage(translatedmessage);
         String test = "it";
-        return client.translate(translatedmessage, originalLanguage, test);
+        return client.translate(translatedmessage, originalLanguage, lang);
     }
 }
