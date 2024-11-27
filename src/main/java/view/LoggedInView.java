@@ -124,7 +124,6 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
         sync.addActionListener(
                 evt -> {
-                    //loggedInViewModel.setState(loggedInViewModel.getState());
                     loadChat((String) friends.getSelectedItem());
                 }
         );
@@ -148,7 +147,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             public void actionPerformed(ActionEvent e) {
                 selectedFriend = (String) friends.getSelectedItem();
                 final LoggedInState currentState = loggedInViewModel.getState();
-                currentState.setLanguage(selectedFriend);
+                //currentState.setLanguage(currentState.getLanguage());
                 loggedInViewModel.setState(currentState);
                 // we need to update the reciever and send message to them...
                 loadChat(selectedFriend);
@@ -182,6 +181,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             final String messageText = chatInputField.getText();
             final String usern = loggedInViewModel.getState().getUsername();
             final String recipientLanguage = loggedInViewModel.getState().getLanguage();
+            System.out.println(recipientLanguage);
 
             final Message message = new CommonMessage(usern, selectedFriend, messageText, messageText, recipientLanguage);
             messageDataAccessObject.saveMessage(message, recipientLanguage);

@@ -154,4 +154,18 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
         }
         return friends;
     }
+
+    @Override
+    public String getLanguage(String username) {
+        final Document userDoc = userCollection.find(Filters.eq(usern, username)).first();
+        //Once database fxed i beleive we can jus return userDoc.getString(lan);
+
+        if (userDoc != null && userDoc.containsKey(lan)) {
+            // Return the value of the language field
+            return userDoc.getString(lan);
+        }
+
+        // figure out this case...
+        return "";
+    }
 }

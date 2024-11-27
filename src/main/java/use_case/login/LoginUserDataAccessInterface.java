@@ -37,6 +37,8 @@ public interface LoginUserDataAccessInterface {
 
     List<String> getFriendsList(String username);
 
+    String getLanguage(String username);
+
     /**
      * Sets the username indicating who is the current user of the application.
      * @param username the new current username; null to indicate that no one is currently logged into the application.
