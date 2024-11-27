@@ -149,7 +149,8 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
             if (userDoc != null && userDoc.containsKey(friend)) {
                 friends.addAll(userDoc.getList(friend, String.class));
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return friends;
@@ -158,7 +159,7 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public String getLanguage(String username) {
         final Document userDoc = userCollection.find(Filters.eq(usern, username)).first();
-        //Once database fxed i beleive we can jus return userDoc.getString(lan);
+        // Once database fxed i beleive we can jus return userDoc.getString(lan);
 
         if (userDoc != null && userDoc.containsKey(lan)) {
             // Return the value of the language field

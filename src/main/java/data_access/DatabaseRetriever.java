@@ -1,12 +1,12 @@
 package data_access;
 
+import static com.mongodb.client.model.Filters.eq;
+
 import java.util.Optional;
 
 import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
-
-import static com.mongodb.client.model.Filters.eq;
 
 /**
  * A utility class for retrieving documents from a MongoDB collection.

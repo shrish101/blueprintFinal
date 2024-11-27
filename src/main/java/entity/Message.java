@@ -19,10 +19,9 @@ public interface Message {
 
     /**
      * Returns the original content of the message.
-     * @return the content of the message in the original language.
      * @param language the current language of user.
+     * @return the content of the message in the original language.
      */
-
     String getTranslatedContent(String language);
 
     /**

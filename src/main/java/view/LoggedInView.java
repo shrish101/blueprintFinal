@@ -6,9 +6,18 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import data_access.InMemoryUserDataAccessObject;
 import data_access.MessageDataAccessObject;
 import entity.CommonMessage;
@@ -20,11 +29,7 @@ import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
-import interface_adapter.fetchFriend.FetchFriendController;
-import interface_adapter.fetchFriend.FetchFriendState;
-import interface_adapter.fetchFriend.FetchFriendViewModel;
 import interface_adapter.logout.LogoutController;
-import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
 
 /**
@@ -32,6 +37,7 @@ import interface_adapter.signup.SignupViewModel;
  */
 public class LoggedInView extends JPanel implements PropertyChangeListener {
     private final String viewName = "logged in";
+    private final String newline = "\\n";
     private final LoggedInViewModel loggedInViewModel;
     private final JLabel passwordErrorField = new JLabel();
     private ChangePasswordController changePasswordController;
@@ -147,7 +153,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             public void actionPerformed(ActionEvent e) {
                 selectedFriend = (String) friends.getSelectedItem();
                 final LoggedInState currentState = loggedInViewModel.getState();
-                //currentState.setLanguage(currentState.getLanguage());
+                // currentState.setLanguage(currentState.getLanguage());
                 loggedInViewModel.setState(currentState);
                 // we need to update the reciever and send message to them...
                 loadChat(selectedFriend);
@@ -181,11 +187,9 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             final String messageText = chatInputField.getText();
             final String usern = loggedInViewModel.getState().getUsername();
             final String recipientLanguage = loggedInViewModel.getState().getLanguage();
-            System.out.println(recipientLanguage);
-
-            final Message message = new CommonMessage(usern, selectedFriend, messageText, messageText, recipientLanguage);
+            final Message message = new CommonMessage(usern, selectedFriend,
+                    messageText, messageText, recipientLanguage);
             messageDataAccessObject.saveMessage(message, recipientLanguage);
-
             chatArea.append("You: " + messageText + "\n");
             chatInputField.setText("");
         });
@@ -230,7 +234,8 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
             final LoggedInState state = (LoggedInState) evt.getNewValue();
             username.setText(state.getUsername());
             updateFriendsList(state.getFriends());
-        } else if (evt.getPropertyName().equals("password")) {
+        }
+        else if (evt.getPropertyName().equals("password")) {
             final LoggedInState state = (LoggedInState) evt.getNewValue();
             JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
         }
@@ -238,13 +243,13 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
 
     private void loadChat(String friend) {
         chatArea.setText("");
-        List<Message> messageList = messageDataAccessObject.getMessageConversation(username.getText(), friend);
+        final List<Message> messageList = messageDataAccessObject.getMessageConversation(username.getText(), friend);
         for (Message message : messageList) {
             if (message.getSender().equals(username.getText())) {
                 chatArea.append("You: " + message.getOriginalLanguage() + "\n");
             }
             else {
-                String lang = loggedInViewModel.getState().getLanguage();
+                final String lang = loggedInViewModel.getState().getLanguage();
                 chatArea.append(friend + ": " + message.getTranslatedContent(lang) + "\n");
             }
         }
