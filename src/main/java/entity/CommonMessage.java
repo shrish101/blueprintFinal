@@ -1,5 +1,7 @@
 package entity;
 
+import app.LibreTranslateClient;
+
 /**
  * Represents a message with sender, recipient, original content, and translated content.
  * This class implements the {@link Message} interface and provides methods to retrieve
@@ -10,13 +12,17 @@ public class CommonMessage implements Message {
     private final String recipient;
     private final String originalmessage;
     private final String translatedmessage;
+    private final String recipientLanguage;
+
+    LibreTranslateClient client = new LibreTranslateClient("http://localhost:5000");
 
     public CommonMessage(String sender, String recipient, String originalmessage,
-                         String translatedmessage) {
+                         String translatedmessage, String recipientLanguage) {
         this.sender = sender;
         this.recipient = recipient;
         this.originalmessage = originalmessage;
         this.translatedmessage = translatedmessage;
+        this.recipientLanguage = recipientLanguage;
     }
 
     @Override
@@ -36,6 +42,8 @@ public class CommonMessage implements Message {
 
     @Override
     public String getTranslatedContent() {
-        return translatedmessage;
+        String originalLanguage = client.detectLanguage(translatedmessage);
+        String test = "it";
+        return client.translate(translatedmessage, originalLanguage, test);
     }
 }
