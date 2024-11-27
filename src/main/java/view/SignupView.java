@@ -32,7 +32,9 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
     private final String[] languages =
-            new String[]{"en", "es", "fr", "de", "it", "hi", "ar"};
+            new String[]{"", "ar", "bg", "bn", "bs", "da", "de", "el", "en", "es",
+                    "fr", "ga", "he", "hi", "hr", "hy", "id", "ja", "ko", "it",
+                    "ne", "nl", "pa", "pl", "pt", "ro", "ru", "so", "sq", "sr", "ta", "tr", "ur", "zh"};
     private final JComboBox<String> languageDropdown = new JComboBox<>(languages);
 
     private SignupController signupController;
