@@ -46,11 +46,12 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
      * @param message the message to be saved to the database.
      * @null The message object cannot be null.
      */
-    public void saveMessage(Message message) {
+    public void saveMessage(Message message, String recipientLangauge) {
         final Document messageDoc = new Document(send, message.getSender())
                 .append(reciever, message.getRecipient())
                 .append(ogmessage, message.getOriginalLanguage())
-                .append(tmessage, message.getTranslatedContent());
+                .append(tmessage, message.getTranslatedContent())
+                .append("recipientLanguage", recipientLangauge);
 
         messageCollection.insertOne(messageDoc);
     }
@@ -67,7 +68,8 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
                     latestMessageDoc.getString(send),
                     latestMessageDoc.getString(reciever),
                     latestMessageDoc.getString(ogmessage),
-                    latestMessageDoc.getString(tmessage)
+                    latestMessageDoc.getString(tmessage),
+                    latestMessageDoc.getString("recipientLanguage")
             );
         }
         return null;
@@ -106,7 +108,8 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
                         doc.getString(send),
                         doc.getString(reciever),
                         doc.getString(ogmessage),
-                        doc.getString(tmessage)
+                        doc.getString(tmessage),
+                        doc.getString("recipientLanguage")
                 );
                 messages.add(message);
             }
@@ -132,7 +135,8 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
                         doc.getString(send),
                         doc.getString(reciever),
                         doc.getString(ogmessage),
-                        doc.getString(tmessage)
+                        doc.getString(tmessage),
+                        doc.getString("recipientLanguage")
                 );
                 if ((message.getSender().equals(username1) || message.getSender().equals(username2)) && (message.getRecipient().equals(username1) || message.getRecipient().equals(username2))) {
                     messages.add(message);

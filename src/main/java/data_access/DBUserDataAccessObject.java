@@ -107,4 +107,16 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         }
         return friends;
     }
+
+    public String getLanguage(String username) {
+        final Document query = new Document(usern, username);
+        final Document userDoc = usersCollection.find(query).first();
+
+        if (userDoc != null) {
+            return userDoc.getString("language");
+        }
+        else {
+            throw new RuntimeException("User not found.");
+        }
+    }
 }
