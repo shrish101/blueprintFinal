@@ -20,8 +20,6 @@ import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
 import interface_adapter.edit_message.EditMessagePresenter;
 import interface_adapter.fetchFriend.FetchFriendViewModel;
-import interface_adapter.fetchFriend.FetchFriendController;
-import interface_adapter.fetchFriend.FetchFriendPresenter;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -39,9 +37,6 @@ import use_case.change_password.ChangePasswordOutputBoundary;
 import use_case.edit_message.EditInputBoundry;
 import use_case.edit_message.EditInteractor;
 import use_case.edit_message.EditOutputBoundry;
-import use_case.fetch_friends.FetchFriendsInputBoundary;
-import use_case.fetch_friends.FetchFriendsInteractor;
-import use_case.fetch_friends.FetchFriendsOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -56,7 +51,6 @@ import view.LoggedInView;
 import view.LoginView;
 import view.SignupView;
 import view.ViewManager;
-
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -158,7 +152,8 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addAddFriendUseCase() {
-        final AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel, loggedInViewModel);
+        final AddFriendOutputBoundary addFriendOutputBoundary = new AddFriendPresenter(addFriendViewModel,
+                loggedInViewModel);
         final AddFriendInputBoundary addFriendInteractor = new AddFriendInteractor(
                 addFriendOutputBoundary, userDataAccessObject);
 

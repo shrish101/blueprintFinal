@@ -1,10 +1,10 @@
 package interface_adapter.addFriend;
 
+import java.util.List;
+
 import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import use_case.add_friend.AddFriendOutputBoundary;
-
-import java.util.List;
 
 /**
  * The Presenter for the Add Friend Use Case.
@@ -26,7 +26,7 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         addFriendViewModel.firePropertyChanged();
 
         final LoggedInState loggedInState = loggedInViewModel.getState();
-        List<String> friends = loggedInState.getFriends();
+        final List<String> friends = loggedInState.getFriends();
         System.out.println(addFriendState.getFriendUsername());
         friends.add(addFriendState.getFriendUsername());
         loggedInState.setFriends(friends);

@@ -13,8 +13,7 @@ public class CommonMessage implements Message {
     private final String originalmessage;
     private final String translatedmessage;
     private final String recipientLanguage;
-
-    LibreTranslateClient client = new LibreTranslateClient("http://localhost:5000");
+    private LibreTranslateClient client = new LibreTranslateClient("http://localhost:5000");
 
     public CommonMessage(String sender, String recipient, String originalmessage,
                          String translatedmessage, String recipientLanguage) {
@@ -42,8 +41,7 @@ public class CommonMessage implements Message {
 
     @Override
     public String getTranslatedContent(String lang) {
-        String originalLanguage = client.detectLanguage(translatedmessage);
-        String test = "it";
+        final String originalLanguage = client.detectLanguage(translatedmessage);
         return client.translate(translatedmessage, originalLanguage, lang);
     }
 }
