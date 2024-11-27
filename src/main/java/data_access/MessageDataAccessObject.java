@@ -50,7 +50,7 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
         final Document messageDoc = new Document(send, message.getSender())
                 .append(reciever, message.getRecipient())
                 .append(ogmessage, message.getOriginalLanguage())
-                .append(tmessage, message.getTranslatedContent())
+                .append(tmessage, message.getTranslatedContent(recipientLangauge))
                 .append("recipientLanguage", recipientLangauge);
 
         messageCollection.insertOne(messageDoc);
