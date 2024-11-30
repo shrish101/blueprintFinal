@@ -3,12 +3,12 @@ package data_access;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import entity.User;
 import entity.UserFactory;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
@@ -87,13 +87,13 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         return null;
     }
 
-    @Override
     /**
      * Retrieve all friends of the given user.
      *
      * @param username Username of the current account
      * @return a list of all friends that this person has
      */
+    @Override
     public List<String> getFriendsList(String username) {
         final List<String> friends = new ArrayList<>();
         try {
@@ -102,21 +102,16 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             if (userDoc != null && userDoc.containsKey(friend)) {
                 friends.addAll(userDoc.getList(friend, String.class));
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return friends;
     }
 
+    @Override
     public String getLanguage(String username) {
-        final Document query = new Document(usern, username);
-        final Document userDoc = usersCollection.find(query).first();
-
-        if (userDoc != null) {
-            return userDoc.getString("language");
-        }
-        else {
-            throw new RuntimeException("User not found.");
-        }
+        return "";
     }
+
 }

@@ -3,6 +3,10 @@ package interface_adapter.fetchFriend;
 import use_case.fetch_friends.FetchFriendsInputBoundary;
 import use_case.fetch_friends.FetchFriendsInputData;
 
+/**
+ * A controller responsible for initiating the Fetch Friends use case.
+ * Delegates the processing to the provided {@code FetchFriendsInputBoundary}.
+ */
 public class FetchFriendController {
     private final FetchFriendsInputBoundary fetchFriendsInputInteractor;
 

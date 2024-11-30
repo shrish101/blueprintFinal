@@ -26,6 +26,7 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
     private final MongoCollection<Document> messageCollection;
     private final String send = "sender";
     private final String reciever = "recipient";
+    private final String recieverLan = "recipientLanguage";
     private final String ogmessage = "originalMessage";
     private final String tmessage = "translatedMessage";
     private final String strid = "_id";
@@ -44,14 +45,15 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
      * Saves a new message to the "messages" collection in MongoDB.
      *
      * @param message the message to be saved to the database.
+     * @param recipientLanguage the language of the user receiving the message.
      * @null The message object cannot be null.
      */
-    public void saveMessage(Message message, String recipientLangauge) {
+    public void saveMessage(Message message, String recipientLanguage) {
         final Document messageDoc = new Document(send, message.getSender())
                 .append(reciever, message.getRecipient())
                 .append(ogmessage, message.getOriginalLanguage())
-                .append(tmessage, message.getTranslatedContent())
-                .append("recipientLanguage", recipientLangauge);
+                .append(tmessage, message.getTranslatedContent(recipientLanguage))
+                .append(recieverLan, recipientLanguage);
 
         messageCollection.insertOne(messageDoc);
     }
@@ -69,7 +71,7 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
                     latestMessageDoc.getString(reciever),
                     latestMessageDoc.getString(ogmessage),
                     latestMessageDoc.getString(tmessage),
-                    latestMessageDoc.getString("recipientLanguage")
+                    latestMessageDoc.getString(recieverLan)
             );
         }
         return null;
@@ -109,7 +111,7 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
                         doc.getString(reciever),
                         doc.getString(ogmessage),
                         doc.getString(tmessage),
-                        doc.getString("recipientLanguage")
+                        doc.getString(recieverLan)
                 );
                 messages.add(message);
             }
@@ -120,11 +122,10 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
         return messages;
     }
 
-
     /**
-     * Retrieves all messages between 2 people
-     * @param username1 Username of one of the people
-     * @param username2 Username of the other person in the conversation
+     * Retrieves all messages between 2 people.
+     * @param username1 Username of one of the people.
+     * @param username2 Username of the other person in the conversation.
      * @return a list of all {@link Message} objects, or an empty list if no messages exist.
      */
     public List<Message> getMessageConversation(String username1, String username2) {
@@ -136,9 +137,10 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
                         doc.getString(reciever),
                         doc.getString(ogmessage),
                         doc.getString(tmessage),
-                        doc.getString("recipientLanguage")
+                        doc.getString(recieverLan)
                 );
-                if ((message.getSender().equals(username1) || message.getSender().equals(username2)) && (message.getRecipient().equals(username1) || message.getRecipient().equals(username2))) {
+                if ((message.getSender().equals(username1) || message.getSender().equals(username2))
+                        && (message.getRecipient().equals(username1) || message.getRecipient().equals(username2))) {
                     messages.add(message);
                 }
             }
