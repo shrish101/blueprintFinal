@@ -6,8 +6,6 @@ import entity.User;
 import entity.UserFactory;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class LogoutInteractorTest {
@@ -19,7 +17,7 @@ class LogoutInteractorTest {
 
         // For the success test, we need to add Paul to the data access repository before we log in.
         UserFactory factory = new CommonUserFactory();
-        User user = factory.create("Paul", "password", "en", Arrays.asList("Jonathan"));
+        User user = factory.create("Paul", "password");
         userRepository.save(user);
         userRepository.setCurrentUsername("Paul");
 
