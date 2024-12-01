@@ -8,10 +8,12 @@ public class EditInputData {
 
     private final String currentUser;
     private final String newContent;
+    private final String currentFriend;
 
-    public EditInputData(String currentUser, String newContent) {
+    public EditInputData(String currentUser, String newContent, String currentFriend) {
         this.currentUser = currentUser;
         this.newContent = newContent;
+        this.currentFriend = currentFriend;
     }
 
     public String getCurrentUser() {
@@ -21,4 +23,6 @@ public class EditInputData {
     public String getNewContent() {
         return newContent;
     }
+
+    public String getCurrentFriend() {return currentFriend;}
 }

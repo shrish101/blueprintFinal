@@ -20,10 +20,11 @@ public class EditMessageController {
      * Executes the Edit Message Use Case.
      * @param currentUser the user who is editing the message
      * @param newContent the new content of the message
+     * @param currentFriend the reciever of the message
      */
-    public void execute(String currentUser, String newContent) {
+    public void execute(String currentUser, String newContent, String currentFriend) {
         // Create the input data object with the current user and new content
-        final EditInputData editInputData = new EditInputData(currentUser, newContent);
+        final EditInputData editInputData = new EditInputData(currentUser, newContent, currentFriend);
 
         // Execute the use case
         editMessageUseCaseInteractor.execute(editInputData);

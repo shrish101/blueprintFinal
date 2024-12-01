@@ -200,7 +200,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                 evt -> {
                     if (evt.getSource().equals(editMessageButton)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
-                        final EditView editView = new EditView(currentState.getUsername());
+                        final EditView editView = new EditView(currentState.getUsername(), selectedFriend);
                         editView.setEditMessageController(editMessageController);
                         editView.setVisible(true);
                     }

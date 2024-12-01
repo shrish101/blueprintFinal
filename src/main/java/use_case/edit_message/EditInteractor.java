@@ -19,11 +19,13 @@ public class EditInteractor implements EditInputBoundry {
     @Override
     public void execute(EditInputData editInputData) {
         // Get the latest message for the current user
-        final Message latestMessage = messageDataAccess.getLatestMessageByUser(editInputData.getCurrentUser());
+        final Message latestMessage = messageDataAccess.getLatestMessageByUser(editInputData.getCurrentUser(),
+                editInputData.getCurrentFriend());
 
         if (latestMessage != null) {
             // Update the latest message with the new content
-            messageDataAccess.updateMessage(latestMessage, editInputData.getNewContent());
+            messageDataAccess.updateMessage(editInputData.getCurrentUser(), editInputData.getCurrentFriend(),
+                    editInputData.getNewContent());
 
             // Prepare the output data for success
             final EditOutputData outputData = new EditOutputData("Message updated successfully.", true);
