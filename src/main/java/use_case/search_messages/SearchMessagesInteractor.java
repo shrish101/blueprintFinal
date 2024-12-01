@@ -30,11 +30,11 @@ public class SearchMessagesInteractor implements SearchMessagesInputBoundary {
             final List<String> results = new ArrayList<>();
 
             for (Message message : allMessages) {
-                if (message.getTranslatedContent("it").toLowerCase().contains(query.toLowerCase())) {
+                if (message.getTranslatedContent("en").toLowerCase().contains(query.toLowerCase())) {
                     final String sender = message.getSender();
                     final String recipient = message.getRecipient();
                     final String originalMessage = message.getOriginalLanguage();
-                    final String translatedMessage = message.getTranslatedContent("it");
+                    final String translatedMessage = message.getTranslatedContent("en");
 
                     results.add(String.format("From: %s, To: %s, Message: %s, Translation: %s", sender,
                             recipient, originalMessage, translatedMessage));

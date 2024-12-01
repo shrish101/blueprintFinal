@@ -59,9 +59,18 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
     }
 
     @Override
-    public Message getLatestMessageByUser(String user) {
-        // Find the most recent message from the user, based on the _id (most recent document)
-        final Document latestMessageDoc = messageCollection.find(Filters.eq(send, user))
+    public Message getLatestMessageByUser(String user1, String user2) {
+        final Document latestMessageDoc = messageCollection.find(
+                        Filters.or(
+                                Filters.and(
+                                        Filters.eq(send, user1),
+                                        Filters.eq(reciever, user2)
+                                ),
+                                Filters.and(
+                                        Filters.eq(send, user2),
+                                        Filters.eq(reciever, user1)
+                                )
+                        ))
                 .sort(new Document(strid, -1))
                 .first();
 
@@ -78,20 +87,27 @@ public class MessageDataAccessObject implements EditUserDataAccessInterface, Sea
     }
 
     @Override
-    public void updateMessage(Message latestMessage, String newOriginalMessage) {
-        // Find the most recent message sent by the user
-        final Document latestMessageDoc = messageCollection.find(Filters.eq(send, latestMessage.getSender()))
-                .sort(new Document(strid, -1))
-                .first();
+    public void updateMessage(String user1, String user2, String newOriginalMessage) {
+        Message latestMessage = getLatestMessageByUser(user1, user2);
+        if (latestMessage != null) {
+            final Document latestMessageDoc = messageCollection.find(
+                            Filters.and(
+                                    Filters.eq(send, user1),
+                                    Filters.eq(reciever, user2),
+                                    Filters.eq(ogmessage, latestMessage.getOriginalLanguage())
+                            ))
+                    .sort(new Document(strid, -1))
+                    .first();
 
-        if (latestMessageDoc != null) {
-            messageCollection.updateOne(
-                    Filters.eq(strid, latestMessageDoc.getObjectId(strid)),
-                    Updates.combine(
-                            Updates.set(ogmessage, newOriginalMessage),
-                            Updates.set(tmessage, newOriginalMessage)
-                    )
-            );
+            if (latestMessageDoc != null) {
+                messageCollection.updateOne(
+                        Filters.eq(strid, latestMessageDoc.getObjectId(strid)),
+                        Updates.combine(
+                                Updates.set(ogmessage, newOriginalMessage),
+                                Updates.set(tmessage, newOriginalMessage)
+                        )
+                );
+            }
         }
     }
 
