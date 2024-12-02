@@ -33,7 +33,7 @@ public class SearchMessagesInteractor implements SearchMessagesInputBoundary {
                 if (message.getOriginalLanguage().toLowerCase().contains(query.toLowerCase())) {
                     final String originalMessage = message.getOriginalLanguage();
 
-                    results.add(String.format("Message: %s", originalMessage));
+                    results.add(String.format("From: %s, To: %s, Message: %s, Translation: %s", originalMessage));
                 }
             }
 
