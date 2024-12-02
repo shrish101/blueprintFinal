@@ -25,14 +25,14 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
 
         final LoggedInState loggedInState = loggedInViewModel.getState();
         final List<String> friends = loggedInState.getFriends();
-        loggedInState.setFriends(friends);
-        loggedInViewModel.setState(loggedInState);
-        loggedInViewModel.firePropertyChanged();
         final AddFriendState addFriendState = addFriendViewModel.getState();
         addFriendState.setSuccessMessage(data.getFriendUsername());
         addFriendViewModel.firePropertyChanged();
         System.out.println(addFriendState.getFriendUsername());
         friends.add(addFriendState.getFriendUsername());
+        loggedInState.setFriends(friends);
+        loggedInViewModel.setState(loggedInState);
+        loggedInViewModel.firePropertyChanged();
     }
 
     @Override
