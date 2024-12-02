@@ -6,14 +6,15 @@ package use_case.add_friend;
 public class AddFriendOutputData {
 
     private final boolean useCaseFailed;
-    private final String friendUsername;
+    private final String message;
 
-    public AddFriendOutputData(String friendUsername, boolean useCaseFailed) {
-        this.friendUsername = friendUsername;
+    public AddFriendOutputData(String message, boolean useCaseFailed) {
+        this.message = message;
         this.useCaseFailed = useCaseFailed;
     }
 
     public String getFriendUsername() {
-        return friendUsername;
+        return message;
     }
 }
+
