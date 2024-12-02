@@ -11,5 +11,5 @@ public interface SearchMessagesInputBoundary {
      *
      * @param inputData The data that contains the search query and parameters.
      */
-    void searchMessages(SearchMessagesInputData inputData);
+    void execute(SearchMessagesInputData inputData);
 }

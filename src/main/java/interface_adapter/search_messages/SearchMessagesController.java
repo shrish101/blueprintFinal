@@ -33,6 +33,6 @@ public class SearchMessagesController {
         }
 
         final SearchMessagesInputData inputData = new SearchMessagesInputData(query);
-        interactor.searchMessages(inputData);
+        interactor.execute(inputData);
     }
 }
