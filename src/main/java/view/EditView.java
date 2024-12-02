@@ -21,14 +21,16 @@ public class EditView extends JFrame {
     private JTextArea messageTextArea;
     private JButton saveButton;
     private String currentUser;
+    private String currentFriend;
     private EditMessageController editMessageController;
     private final int magic400 = 400;
     private final int magic300 = 300;
     private final int magic10 = 10;
     private final int magic30 = 30;
 
-    public EditView(String currentUser) {
+    public EditView(String currentUser, String currentFriend) {
         this.currentUser = currentUser;
+        this.currentFriend = currentFriend;
 
         setTitle("Edit Message");
         setSize(magic400, magic300);
@@ -57,7 +59,7 @@ public class EditView extends JFrame {
     private void saveChanges() {
         final String updatedMessage = messageTextArea.getText();
 
-        editMessageController.execute(currentUser, updatedMessage);
+        editMessageController.execute(currentUser, updatedMessage, currentFriend);
 
         dispose();
     }

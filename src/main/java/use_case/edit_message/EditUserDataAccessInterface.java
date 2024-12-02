@@ -11,16 +11,18 @@ public interface EditUserDataAccessInterface {
     /**
      * Retrieves the latest message sent by the specified user.
      *
-     * @param user The username of the sender.
+     * @param user1 The username of the sender.
+     * @param user2 The username of reciever
      * @return The latest message sent by the user, or null if no message is found.
      */
-    Message getLatestMessageByUser(String user);
+    Message getLatestMessageByUser(String user1, String user2);
 
     /**
      * Updates the content of the specified message.
      *
-     * @param latestMessage The ID of the message to update.
      * @param newContent The new content for the message.
+     * @param user1 The username of sender
+     * @param user2 The username of reciever
      */
-    void updateMessage(Message latestMessage, String newContent);
+    void updateMessage(String user1, String user2, String newContent);
 }
