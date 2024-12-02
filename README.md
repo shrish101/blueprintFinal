@@ -28,12 +28,18 @@ This project was created to facilitate effective communication in multilingual s
 - **Message Search**: Enables users to locate specific messages using keywords or dates.
 - **User Authentication**: Secure login system for personalized chat experiences.
 
-### User Stories
-1. **Messaging Across Languages**: Girik wants to chat with his friend Abdallah, who speaks Arabic. He sends a message in English, and the application translates it into Arabic in real-time so Abdallah can read it.. - Team
-3. **Message Editing**: Shrish realizes he made a typo in his message and edits it. - Shrish
-4. **Chat History Access**: hanush wants to add Girik as a friend so that they can communicate with each other. - Thanush
-5. **Search Functionality**: Abdallah wants to find a specific message. He uses the search feature to locate it by keyword. - Abdallah
-6. **User Account creation and Log in**: Girik opens the app and creates an account which he can login in to later with the information he used to create account. - Girik
+### User/Team Stories
+### Real-Time Messaging and Translation
+Girik wants to chat with his friend Abdallah, who speaks Arabic. He sends a message in English, and the application translates it into Arabic in real-time so Abdallah can read it.. - Team
+### Editing Messages
+Shrish realizes he made a typo in his message and edits it. - Shrish
+### Add Friend
+Thanush wants to add Girik as a friend so that they can communicate with each other. - Thanush
+### Message Search Feature
+Abdallah wants to find a specific message. He uses the search feature to locate it by keyword. - Abdallah
+### Creating and Logging in to Account
+Girik
+opens the app and creates an account which he can log in in to later with the information he used to create account. - Girik
 ---
 
 ## Installation
@@ -62,12 +68,12 @@ This project was created to facilitate effective communication in multilingual s
 ## Usage
 1. **Starting the Application**:
     - Log in or sign up to access the chat features.
-2. **Chatting**:
-    - Select a user or group to start a chat.
-    - Type your message, and it will be translated automatically.
-3. **Editing Messages**:
-    - Hover over a message and select "Edit" to update it.
-4. **Accessing Chat History**:
-    - Scroll through previous conversations in the chat window.
-5. **Searching Messages**:
-    - Use the search bar to locate messages by keyword or date.
+2. **Adding a friend**:
+   - Press the add friend button to add another user as a friend using their username.
+3. **Chatting**:
+    - Select a friend from the dropdown menu.
+    - Type your message, and it will be translated automatically for each person's chosen language.
+4. **Editing Messages**:
+    - Press edit message button to edit latest message sent by you in the conversation.
+6. **Searching Messages**:
+    - Use the search button to find message by keyword.
