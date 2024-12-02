@@ -2,9 +2,9 @@
 
 ## Authors and Contributors
 - **Girik Setya**
-- **Shrish**
-- **Thanush**
-- **Abdallah**
+- **Shrish Luitel**
+- **Thanush Lingeswaran**
+- **Abdallah Abdelaal**
 
 ## Project Summary
 Talk Tuah-Ginky is a real-time messaging and translation application designed to bridge communication gaps across languages. The app enables seamless one-on-one and group conversations by translating messages into the recipient's preferred language in real-time.
