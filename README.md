@@ -48,10 +48,8 @@ This project was created to facilitate effective communication in multilingual s
     - Configure the database:
         - Install and run MongoDB.
         - Set up environment variables for the database connection.
-    - Seting up .env file:
-      ```
-      MONGODB_URI=mongodb+srv://giriksetya:bMB459ArmF5lkMSb@translateproject.ueqcg.mongodb.net/?retryWrites=true&w=majority&appName=TranslateProject
-      ```
+    - Setting up .env file:
+      
     - Install LibreTranslate Api:
    ```bash
     pip3 install libretranslate
