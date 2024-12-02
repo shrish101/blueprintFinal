@@ -23,7 +23,7 @@ public class SearchMessagesInteractor implements SearchMessagesInputBoundary {
     }
 
     @Override
-    public void searchMessages(SearchMessagesInputData inputData) {
+    public void execute(SearchMessagesInputData inputData) {
         try {
             final String query = inputData.getQuery();
             final List<Message> allMessages = dataAccess.getAllMessages();
