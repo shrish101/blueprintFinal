@@ -77,3 +77,22 @@ opens the app and creates an account which he can log in in to later with the in
     - Press edit message button to edit latest message sent by you in the conversation.
 6. **Searching Messages**:
     - Use the search button to find message by keyword.
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for details.
+
+---
+
+## Feedback
+We value your feedback! Submit your suggestions or bug reports through our [Google Form](https://forms.google.com/example-feedback) or raise an issue on the [GitHub Issues](https://github.com/shrish101/blueprintFinal/issues) page.
+
+---
+
+## Contributions
+We welcome contributions! To contribute:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes and push to your forked repository.
+4. Create a pull request with a detailed explanation of your changes.
+
+For detailed contribution guidelines, see our [Contributing](CONTRIBUTING.md) document.
