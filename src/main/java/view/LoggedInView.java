@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -176,9 +177,10 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
         logOut.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(logOut)) {
-                        // TODO: execute the logout use case through the Controller
                         // 1. get the state out of the loggedInViewModel. It contains the username.
                         // 2. Execute the logout Controller.
+                        final LoggedInState currentState = loggedInViewModel.getState();
+                        this.logoutController.execute(currentState.getUsername());
                     }
                 }
         );
@@ -198,7 +200,7 @@ public class LoggedInView extends JPanel implements PropertyChangeListener {
                 evt -> {
                     if (evt.getSource().equals(editMessageButton)) {
                         final LoggedInState currentState = loggedInViewModel.getState();
-                        final EditView editView = new EditView(currentState.getUsername());
+                        final EditView editView = new EditView(currentState.getUsername(), selectedFriend);
                         editView.setEditMessageController(editMessageController);
                         editView.setVisible(true);
                     }
