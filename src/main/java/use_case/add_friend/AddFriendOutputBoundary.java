@@ -7,13 +7,13 @@ public interface AddFriendOutputBoundary {
 
     /**
      * Prepares the success view with the output data.
-     * @param success the output data
+     * @param outputData the output data
      */
-    void prepareSuccessView(String success);
+    void prepareSuccessView(AddFriendOutputData outputData);
 
     /**
      * Prepares the failure view with an error message.
-     * @param error the error message
+     * @param outputData the error message
      */
-    void prepareFailView(String error);
+    void prepareFailView(AddFriendOutputData outputData);
 }

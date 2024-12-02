@@ -19,20 +19,27 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         final String username = addFriendInputData.getUsername();
         final String friendUsername = addFriendInputData.getFriendUsername();
         if (!userDataAccessObject.existsByName(friendUsername)) {
-            presenter.prepareFailView(friendUsername + ": Account does not exist.");
+            final AddFriendOutputData outputData = new AddFriendOutputData(friendUsername + ": Account does not exist.",
+                    true);
+            presenter.prepareFailView(outputData);
         }
         // Add validation or logic for adding a friend here.
         else if (username.equals(friendUsername)) {
-            presenter.prepareFailView("You cannot add yourself as a friend.");
+            final AddFriendOutputData outputData = new AddFriendOutputData("You cannot add yourself as a friend.",
+                    true);
+            presenter.prepareFailView(outputData);
         }
         else {
             final boolean check = userDataAccessObject.addFriend(username, friendUsername);
             if (!check) {
-                presenter.prepareFailView("You have already added " + friendUsername + " as your friend.");
+                final AddFriendOutputData outputData = new AddFriendOutputData("You have already added " + friendUsername + " as your friend.",
+                        true);
+                presenter.prepareFailView(outputData);
             }
             else {
-                final AddFriendOutputData outputData = new AddFriendOutputData(friendUsername, false);
-                presenter.prepareSuccessView(friendUsername + " successfully added as your friend!");
+                final AddFriendOutputData outputData = new AddFriendOutputData(friendUsername + " successfully added as your friend!",
+                        false);
+                presenter.prepareSuccessView(outputData);
             }
         }
     }
