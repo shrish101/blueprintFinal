@@ -39,8 +39,6 @@ This project was created to facilitate effective communication in multilingual s
 ## Installation
 1. **System Requirements**:
     - OS: Cross-platform (Windows, macOS, Linux)
-    - Java JDK 17 or higher
-    - MongoDB 5.0 or higher
 2. **Setup**:
     - Clone the repository:
       ```bash
