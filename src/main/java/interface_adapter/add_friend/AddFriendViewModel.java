@@ -1,4 +1,4 @@
-package interface_adapter.addFriend;
+package interface_adapter.add_friend;
 
 import interface_adapter.ViewModel;
 

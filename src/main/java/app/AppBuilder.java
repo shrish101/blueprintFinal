@@ -11,15 +11,14 @@ import data_access.MessageDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.addFriend.AddFriendController;
-import interface_adapter.addFriend.AddFriendPresenter;
-import interface_adapter.addFriend.AddFriendViewModel;
+import interface_adapter.add_friend.AddFriendController;
+import interface_adapter.add_friend.AddFriendPresenter;
+import interface_adapter.add_friend.AddFriendViewModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.edit_message.EditMessageController;
 import interface_adapter.edit_message.EditMessagePresenter;
-import interface_adapter.fetchFriend.FetchFriendViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -76,7 +75,6 @@ public class AppBuilder {
     private LoginView loginView;
     private AddFriendView addFriendView;
     private AddFriendViewModel addFriendViewModel;
-    private FetchFriendViewModel fetchFriendsViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -159,7 +157,6 @@ public class AppBuilder {
 
         final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
         addFriendView.setAddFriendController(addFriendController);
-        System.out.println(2);
         return this;
     }
 
@@ -175,7 +172,6 @@ public class AppBuilder {
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
-        System.out.println(1);
         return this;
     }
 

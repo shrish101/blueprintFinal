@@ -1,4 +1,4 @@
-package interface_adapter.addFriend;
+package interface_adapter.add_friend;
 
 import use_case.add_friend.AddFriendInputBoundary;
 import use_case.add_friend.AddFriendInputData;

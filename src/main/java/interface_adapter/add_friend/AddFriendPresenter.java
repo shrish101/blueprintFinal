@@ -1,4 +1,4 @@
-package interface_adapter.addFriend;
+package interface_adapter.add_friend;
 
 import java.util.List;
 
@@ -21,17 +21,17 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
 
     @Override
     public void prepareSuccessView(String success) {
-        final AddFriendState addFriendState = addFriendViewModel.getState();
-        addFriendState.setSuccessMessage(success);
-        addFriendViewModel.firePropertyChanged();
 
         final LoggedInState loggedInState = loggedInViewModel.getState();
         final List<String> friends = loggedInState.getFriends();
-        System.out.println(addFriendState.getFriendUsername());
-        friends.add(addFriendState.getFriendUsername());
         loggedInState.setFriends(friends);
         loggedInViewModel.setState(loggedInState);
         loggedInViewModel.firePropertyChanged();
+        final AddFriendState addFriendState = addFriendViewModel.getState();
+        addFriendState.setSuccessMessage(success);
+        addFriendViewModel.firePropertyChanged();
+        System.out.println(addFriendState.getFriendUsername());
+        friends.add(addFriendState.getFriendUsername());
     }
 
     @Override

@@ -33,7 +33,6 @@ public class LoginInteractor implements LoginInputBoundary {
 
                 final User user = userDataAccessObject.get(loginInputData.getUsername());
                 final List<String> friends = userDataAccessObject.getFriendsList(user.getName());
-                // System.out.println(friends);
                 final String langgy = userDataAccessObject.getLanguage(user.getName());
 
                 userDataAccessObject.setCurrentUsername(user.getName());

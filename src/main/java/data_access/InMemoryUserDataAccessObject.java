@@ -15,7 +15,6 @@ import entity.User;
 import io.github.cdimascio.dotenv.Dotenv;
 import use_case.add_friend.AddFriendUserDataAccessInterface;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
-import use_case.fetch_friends.FetchFriendsUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
@@ -31,7 +30,7 @@ import use_case.signup.SignupUserDataAccessInterface;
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface, AddFriendUserDataAccessInterface, FetchFriendsUserDataAccessInterface {
+        LogoutUserDataAccessInterface, AddFriendUserDataAccessInterface {
 
     private final MongoCollection<Document> userCollection;
     private String currentUsername;
