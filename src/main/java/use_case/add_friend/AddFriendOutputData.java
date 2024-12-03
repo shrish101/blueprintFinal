@@ -16,5 +16,9 @@ public class AddFriendOutputData {
     public String getFriendUsername() {
         return message;
     }
+
+    public boolean isUseCaseFailed() {
+        return useCaseFailed;
+    }
 }
 
