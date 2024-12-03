@@ -32,12 +32,13 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         else {
             final boolean check = userDataAccessObject.addFriend(username, friendUsername);
             if (!check) {
-                final AddFriendOutputData outputData = new AddFriendOutputData("You have already added " + friendUsername + " as your friend.",
-                        true);
+                final AddFriendOutputData outputData = new AddFriendOutputData("You have already added "
+                        + friendUsername + " as your friend.", true);
                 presenter.prepareFailView(outputData);
             }
             else {
-                final AddFriendOutputData outputData = new AddFriendOutputData(friendUsername + " successfully added as your friend!",
+                final AddFriendOutputData outputData = new AddFriendOutputData(
+                        friendUsername + " successfully added as your friend!",
                         false);
                 presenter.prepareSuccessView(outputData);
             }
