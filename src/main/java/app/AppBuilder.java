@@ -159,7 +159,6 @@ public class AppBuilder {
 
         final AddFriendController addFriendController = new AddFriendController(addFriendInteractor);
         addFriendView.setAddFriendController(addFriendController);
-        System.out.println(2);
         return this;
     }
 
@@ -175,7 +174,6 @@ public class AppBuilder {
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
-        System.out.println(1);
         return this;
     }
 

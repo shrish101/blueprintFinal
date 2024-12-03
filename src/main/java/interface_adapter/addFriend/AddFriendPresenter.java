@@ -28,7 +28,6 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         final AddFriendState addFriendState = addFriendViewModel.getState();
         addFriendState.setSuccessMessage(data.getFriendUsername());
         addFriendViewModel.firePropertyChanged();
-        System.out.println(addFriendState.getFriendUsername());
         friends.add(addFriendState.getFriendUsername());
         loggedInState.setFriends(friends);
         loggedInViewModel.setState(loggedInState);
