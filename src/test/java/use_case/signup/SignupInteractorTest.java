@@ -7,6 +7,7 @@ import entity.UserFactory;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +15,7 @@ class SignupInteractorTest {
 
     @Test
     void successTest() {
-        SignupInputData inputData = new SignupInputData("Paul", "password", "password");
+        SignupInputData inputData = new SignupInputData("Paul9", "password", "password", "en");
         SignupUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
 
         // This creates a successPresenter that tests whether the test case is as we expect.
@@ -22,8 +23,8 @@ class SignupInteractorTest {
             @Override
             public void prepareSuccessView(SignupOutputData user) {
                 // 2 things to check: the output data is correct, and the user has been created in the DAO.
-                assertEquals("Paul", user.getUsername());
-                assertTrue(userRepository.existsByName("Paul"));
+                assertEquals("Paul9", user.getUsername());
+                assertTrue(userRepository.existsByName("Paul9"));
             }
 
             @Override
@@ -43,7 +44,7 @@ class SignupInteractorTest {
 
     @Test
     void failurePasswordMismatchTest() {
-        SignupInputData inputData = new SignupInputData("Paul", "password", "wrong");
+        SignupInputData inputData = new SignupInputData("Paul5", "yellow", "blue", "en");
         SignupUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
 
         // This creates a presenter that tests whether the test case is as we expect.
@@ -71,12 +72,13 @@ class SignupInteractorTest {
 
     @Test
     void failureUserExistsTest() {
-        SignupInputData inputData = new SignupInputData("Paul", "password", "wrong");
+        SignupInputData inputData = new SignupInputData("Paul", "pwd", "pwd", "en");
         SignupUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
 
         // Add Paul to the repo so that when we check later they already exist
         UserFactory factory = new CommonUserFactory();
-        User user = factory.create("Paul", "pwd");
+        ArrayList<String> users = new ArrayList<>();
+        User user = factory.create("Paul", "pwd", "en", users);
         userRepository.save(user);
 
         // This creates a presenter that tests whether the test case is as we expect.
