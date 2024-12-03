@@ -20,7 +20,6 @@ public class FetchFriendPresenter implements FetchFriendsOutputBoundary {
     public void prepareSuccessView(FetchFriendsOutputData outputData) {
         final FetchFriendState fetchFriendState = fetchFriendsViewModel.getState();
         fetchFriendState.setFriendsList(outputData.getFriends());
-        System.out.println(fetchFriendState.getFriendsList());
         fetchFriendState.setSuccessMessage("Friends list fetched successfully.");
         fetchFriendsViewModel.firePropertyChanged();
     }

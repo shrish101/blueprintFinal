@@ -131,7 +131,6 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
                 Filters.eq(usern, friendUsername),
                 new Document("$set", new Document(friend, friendFriends))
         );
-        System.out.println(magic);
         return true;
     }
 
