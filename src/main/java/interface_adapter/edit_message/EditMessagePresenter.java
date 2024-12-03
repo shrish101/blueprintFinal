@@ -8,15 +8,18 @@ import use_case.edit_message.EditOutputData;
  */
 public class EditMessagePresenter implements EditOutputBoundry {
 
+    private String message;
+    private boolean useCaseFailed;
+
     @Override
     public void prepareSuccessView(EditOutputData outputData) {
-        // Temporary Testing
-        System.out.println("Message updated successfully.");
+        this.message = outputData.getMessage();
+        this.useCaseFailed = outputData.isUseCaseFailed();
     }
 
     @Override
     public void prepareFailView(String error) {
-        // Testing
-        System.out.println("Error: " + error);
+        this.message = error;
+        this.useCaseFailed = true;
     }
 }
