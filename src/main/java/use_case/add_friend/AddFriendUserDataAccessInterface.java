@@ -1,8 +1,8 @@
 package use_case.add_friend;
 
-import entity.User;
 import java.util.List;
-import java.util.ArrayList;
+
+import entity.User;
 
 /**
  * The AddFriendUserDataAccessInterface defines the contract for the data access layer
@@ -37,6 +37,7 @@ public interface AddFriendUserDataAccessInterface {
     /**
      * Saves the user.
      * @param friendUsername the friend usename
+     * @return the list of friends
      */
     List<String> getFriendsList(String friendUsername);
 }
